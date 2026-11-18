@@ -192,9 +192,12 @@ export function at(geometry: BufferGeometry, x: number, y: number, z: number, rx
   return geometry.translate(x, y, z);
 }
 
-/** The mirror image across the plane of symmetry (z to −z), still facing out. */
+/**
+ * The mirror image across the plane of symmetry (z to −z), still facing out: its triangles are turned the other way
+ * around, which takes an index (a primitive that has none is given one first).
+ */
 export function mirrored(geometry: BufferGeometry): BufferGeometry {
-  const copy = geometry.clone().scale(1, 1, -1);
+  const copy = plain(geometry.clone()).scale(1, 1, -1);
   const index = copy.getIndex();
   if (index) {
     for (let i = 0; i < index.count; i += 3) {

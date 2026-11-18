@@ -1,8 +1,7 @@
 /**
- * The deployment's headers (deploy/): the policy for the hosting (Phase 5), no WebAssembly,
- * and the two ways an nginx file loses a header or leaks a token without anyone noticing: a location
- * that sets a header of its own drops the inherited ones, and a log line can carry the query string, where the
- * access token travels.
+ * The deployment's headers (deploy/): the policy for the hosting (Phase 5), no WebAssembly, and the two ways an nginx
+ * file loses a header or leaks something without anyone noticing: a location that sets a header of its own drops the
+ * inherited ones, and a log line can carry the query string, where something private may travel.
  */
 import { readFileSync } from 'node:fs';
 
@@ -93,10 +92,10 @@ describe('nginx.conf', () => {
   });
 
   it('keeps the query string, the referrer and the cookie out of the access log', () => {
-    const format = /log_format\s+notoken\s+([^;]+);/.exec(server)?.[1];
+    const format = /log_format\s+noquery\s+([^;]+);/.exec(server)?.[1];
     expect(format).toBeDefined();
     expect(format).not.toMatch(/\$request\b|\$request_uri|\$args|\$query_string|\$http_referer|\$http_cookie/);
-    expect(server).toMatch(/access_log\s+\/dev\/stdout\s+notoken;/);
+    expect(server).toMatch(/access_log\s+\/dev\/stdout\s+noquery;/);
   });
 
   it('keeps a long cache for a successful answer only, never for a 404', () => {

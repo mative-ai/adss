@@ -28,9 +28,9 @@ The proxy owns what the container does not:
   restricts which authority may issue it (the domain has no CAA record).
 - **`Strict-Transport-Security`.** Start with `max-age=300`, raise it once the site works over HTTPS, and leave
   `includeSubDomains` and `preload` out unless the whole domain is ready for them.
-- **The log.** The access link carries a token in its query string (ADR 0003). The container's log keeps the path
-  only; keep the query out of the proxy's too (the Caddy example below drops the URI and the cookie from its log, and
-  was tried with a test token: it did not appear).
+- **The log.** A query string can carry something private (a link a visitor shares, say). The container's log keeps the
+  path only; keep the query out of the proxy's too (the Caddy example below drops the URI and the cookie from its log,
+  and was tried with a test value in the query: it did not appear).
 
 With Caddy, for a name `<host>`:
 
@@ -80,6 +80,3 @@ curl -s https://<host>/third-party-licenses.txt | head -5
 
 The page should answer with the headers above, the hashed files with `content-encoding: gzip` and
 `cache-control: public, max-age=31536000, immutable`, and the two license files with `200`.
-
-A production build shows the permission state, not the simulator, until the access flow of ADR 0003 is in place: the
-development branch of `src/access.ts` that opens it is not in the bundle.

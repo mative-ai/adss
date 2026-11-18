@@ -46,7 +46,11 @@ export const en: Dictionary = {
     step: 'Step',
     stepHint: 'Advance one control cycle (50 ms)',
     reset: 'Reset',
-    speed: 'Playback speed',
+    speed: 'Top speed',
+    speedDown: 'Lower the top speed by {step} km/h',
+    speedUp: 'Raise the top speed by {step} km/h',
+    speedHint:
+      'The vehicle travels at this speed until it has to brake. Each change restarts the run. The scenario is set at {speed} km/h.',
     ghost: 'Ghost',
     ghostHint: 'The basic controller, on the same scenario and with the same seed',
     keys: 'Keyboard: Space plays and pauses, R restarts, right arrow steps',

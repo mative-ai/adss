@@ -89,18 +89,19 @@ describe('the commands', () => {
     store.pause();
     store.step();
     store.reset();
-    store.setSpeed(0.5);
     store.setParams({ ghost: false });
+    // The vehicle's top speed is a parameter of the run like the others: the run starts again with it.
+    store.setParams({ speedKmh: 90 });
     expect(worker.sent.map((s) => s.message)).toEqual([
       { type: 'init', version: PROTOCOL_VERSION, scenario: { id: 'pedestrian' }, seed: 3, config: { horizon: 15 } },
       { type: 'control', action: 'play' },
       { type: 'control', action: 'pause' },
       { type: 'control', action: 'step' },
       { type: 'control', action: 'reset' },
-      { type: 'setSpeed', rate: 0.5 },
       { type: 'setParams', config: { ghost: false } },
+      { type: 'setParams', config: { speedKmh: 90 } },
     ]);
-    expect(store.getSnapshot()).toMatchObject({ scenarioId: 'pedestrian', seed: 3, speed: 0.5 });
+    expect(store.getSnapshot()).toMatchObject({ scenarioId: 'pedestrian', seed: 3 });
   });
 });
 

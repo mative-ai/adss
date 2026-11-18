@@ -45,7 +45,11 @@ export const es: Dictionary = {
     step: 'Paso',
     stepHint: 'Avanza un ciclo de control (50 ms)',
     reset: 'Reiniciar',
-    speed: 'Velocidad de reproducción',
+    speed: 'Velocidad máxima',
+    speedDown: 'Reduce la velocidad máxima en {step} km/h',
+    speedUp: 'Aumenta la velocidad máxima en {step} km/h',
+    speedHint:
+      'El vehículo circula a esta velocidad hasta que tiene que frenar. Cada cambio reinicia la simulación. El escenario prevé {speed} km/h.',
     ghost: 'Fantasma',
     ghostHint: 'El controlador básico, en el mismo escenario y con la misma semilla',
     keys: 'Teclado: Espacio inicia y pausa, R reinicia, flecha derecha avanza un paso',

@@ -20,3 +20,7 @@ export type ScenarioId = (typeof SCENARIOS)[number]['id'];
 export const FIRST_SCENARIO: ScenarioId = 'pedestrian';
 
 export const scenarioJson = (id: string): unknown => SCENARIOS.find((s) => s.id === id)?.json;
+
+/** The speed a scenario is written for, km/h: the one its vehicle holds until it has to brake. */
+export const scenarioSpeedKmh = (id: string | null): number | undefined =>
+  SCENARIOS.find((s) => s.id === id)?.json.speed.reference;

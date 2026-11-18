@@ -2,12 +2,14 @@
  * The report at the end of a run (Phase 4: the success state): the MPC's metrics and the ghost's side
  * by side, labeled as a simulation, as everything the simulator shows is (CLAUDE.md §7). Every figure comes from the run's
  * metrics, measured on the simulated world; the units are the ones people read (km/h, degrees, g), converted here from
- * the SI units of the core. A figure the run does not have (the TTC of a run that never closed in) is a dash.
+ * the SI units of the core. A figure the run does not have (the TTC of a run that never closed in) is a dash. Under the
+ * title, the top speed the run was made at: a result read without it says little.
  */
 import type { SessionMetrics } from '@mpc-simulator/worker';
 
 import { useI18n } from '../i18n/context.tsx';
 import { format } from '../i18n/index.ts';
+import { scenarioSpeedKmh } from '../sim/scenarios.ts';
 import { CARD, CARD_TITLE, CHIP, MUTED } from './styles.ts';
 
 const G = 9.81;
@@ -33,6 +35,8 @@ export function Report({ metrics }: { metrics: SessionMetrics }) {
     { label: r.rows.distance, value: (m) => cell(m.distance, 1, 'm') },
     { label: r.rows.duration, value: (m) => cell(m.duration, 2, 's') },
   ];
+  // The speed the run was made at: the visitor's, recorded with the run, or the scenario's own.
+  const speed = metrics.config.speedKmh ?? scenarioSpeedKmh(metrics.scenario);
   const columns: { name: string; vehicle: Vehicle }[] = [{ name: r.columns.ego, vehicle: metrics.ego }];
   if (metrics.ghost) columns.push({ name: r.columns.ghost, vehicle: metrics.ghost });
   const outcome = (v: Vehicle) =>
@@ -50,6 +54,11 @@ export function Report({ metrics }: { metrics: SessionMetrics }) {
         </h2>
         <span className={`${CHIP} font-medium`}>{t.simulation}</span>
       </div>
+      {speed !== undefined && (
+        <p className={`text-sm tabular-nums ${MUTED}`}>
+          {t.controls.speed}: {n(speed, 0)} km/h
+        </p>
+      )}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[420px] text-left text-sm tabular-nums">
           <thead>

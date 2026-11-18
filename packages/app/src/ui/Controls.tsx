@@ -1,24 +1,32 @@
 /**
- * The commands of the run (Phase 4): play and pause, one control cycle, reset, the playback speed and the
- * ghost. Each only sends a message; what the run does comes back as frames. The keys (Space, R, right arrow) are in
- * usePageControls; the buttons carry them as `aria-keyshortcuts` and the line under them says them in words.
+ * The commands of the run (Phase 4): play and pause, one control cycle, reset, the vehicle's top speed
+ * and the ghost. Each only sends a message; what the run does comes back as frames. The keys (Space, R, right arrow)
+ * are in usePageControls; the buttons carry them as `aria-keyshortcuts` and the line under them says them in words.
+ *
+ * The run always plays in real time. What a visitor changes is the speed the vehicle travels at (sim/speed.ts): a
+ * parameter of the simulation, which starts again with it and shows what that speed leads to.
  */
 import { useI18n } from '../i18n/context.tsx';
+import { format } from '../i18n/index.ts';
+import { scenarioSpeedKmh } from '../sim/scenarios.ts';
+import { SPEED_RANGE, stepSpeed } from '../sim/speed.ts';
 import type { SimulationStore, Snapshot } from '../sim/store.ts';
 import { PauseIcon, PlayIcon, ResetIcon, StepIcon } from './icons.tsx';
 import { PRIMARY, SECONDARY } from './styles.ts';
 
-/** The playback rates offered, 1 being real time (the worker accepts 0.05 to 4). */
-const SPEEDS = [0.25, 0.5, 1, 2, 4] as const;
-
-const SEGMENT =
-  'min-h-10 min-w-11 rounded-full px-2.5 text-sm font-medium tabular-nums transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+const STEPPER =
+  'flex size-10 items-center justify-center rounded-full border border-clay-300 bg-white/80 text-lg font-medium text-clay-900 transition duration-200 hover:border-clay-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:bg-night-900/60 dark:text-white';
 
 export function Controls({ store, snapshot }: { store: SimulationStore; snapshot: Snapshot }) {
   const { t, n } = useI18n();
   const ready = snapshot.status === 'ready';
   const ghost = snapshot.config?.ghost ?? true;
-  const label = (rate: number) => `${n(rate, rate < 1 ? 2 : 0)}×`;
+  // The speed the scenario is written for, and the one this run has: the visitor's, when one was given.
+  const own = scenarioSpeedKmh(snapshot.scenarioId);
+  const speed = snapshot.config?.speedKmh ?? own;
+  const step = (direction: 1 | -1) => {
+    if (speed !== undefined) store.setParams({ speedKmh: stepSpeed(speed, direction) });
+  };
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
       <div className="flex flex-wrap items-center gap-2">
@@ -64,34 +72,40 @@ export function Controls({ store, snapshot }: { store: SimulationStore; snapshot
       </div>
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-        <div role="radiogroup" aria-label={t.controls.speed} className="flex flex-wrap items-center gap-1">
-          <span
-            aria-hidden="true"
-            className="basis-full text-sm text-clay-600 sm:mr-2 sm:basis-auto dark:text-clay-400"
-          >
-            {t.controls.speed}
-          </span>
-          {SPEEDS.map((rate) => {
-            const on = snapshot.speed === rate;
-            return (
-              <button
-                key={rate}
-                type="button"
-                role="radio"
-                aria-checked={on}
-                disabled={!ready}
-                onClick={() => store.setSpeed(rate)}
-                className={`${SEGMENT} ${
-                  on
-                    ? 'bg-primary text-ink'
-                    : 'border border-clay-300 bg-white/80 text-clay-900 hover:border-clay-400 dark:border-white/15 dark:bg-night-900/60 dark:text-white'
-                }`}
-              >
-                {label(rate)}
-              </button>
-            );
-          })}
-        </div>
+        {speed !== undefined && (
+          <div role="group" aria-label={t.controls.speed} className="flex flex-wrap items-center gap-2">
+            <span
+              aria-hidden="true"
+              className="basis-full text-sm text-clay-600 sm:mr-1 sm:basis-auto dark:text-clay-400"
+            >
+              {t.controls.speed}
+            </span>
+            <button
+              type="button"
+              className={STEPPER}
+              disabled={!ready || speed <= SPEED_RANGE.min}
+              onClick={() => step(-1)}
+              aria-label={format(t.controls.speedDown, { step: SPEED_RANGE.step })}
+            >
+              <span aria-hidden="true">−</span>
+            </button>
+            <output
+              aria-live="polite"
+              className="min-w-22 text-center text-[15px] font-medium tabular-nums text-clay-950 dark:text-white"
+            >
+              {n(speed, 0)} km/h
+            </output>
+            <button
+              type="button"
+              className={STEPPER}
+              disabled={!ready || speed >= SPEED_RANGE.max}
+              onClick={() => step(1)}
+              aria-label={format(t.controls.speedUp, { step: SPEED_RANGE.step })}
+            >
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+        )}
 
         <button
           type="button"
@@ -116,7 +130,10 @@ export function Controls({ store, snapshot }: { store: SimulationStore; snapshot
         </button>
       </div>
 
-      <p className="basis-full text-xs text-clay-600 dark:text-clay-400">{t.controls.keys}</p>
+      <div className="flex basis-full flex-col gap-1 text-xs text-clay-600 dark:text-clay-400">
+        {own !== undefined && <p>{format(t.controls.speedHint, { speed: n(own, 0) })}</p>}
+        <p>{t.controls.keys}</p>
+      </div>
     </div>
   );
 }

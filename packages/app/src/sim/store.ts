@@ -52,8 +52,6 @@ export interface Snapshot {
   readonly seed: number;
   readonly playing: boolean;
   readonly done: boolean;
-  /** The playback rate asked for: 1 is real time. */
-  readonly speed: number;
   /** The rate the simulation achieves while it cannot keep up (automatic slow motion); null otherwise. */
   readonly slowMotion: number | null;
   readonly readout: Readout | null;
@@ -77,7 +75,6 @@ const INITIAL: Snapshot = {
   seed: 1,
   playing: false,
   done: false,
-  speed: 1,
   slowMotion: null,
   readout: null,
   decision: null,
@@ -143,12 +140,7 @@ export class SimulationStore {
     this.post({ type: 'control', action: 'reset' });
   }
 
-  setSpeed(rate: number): void {
-    this.update({ speed: rate });
-    this.post({ type: 'setSpeed', rate });
-  }
-
-  /** New parameters: the run starts again. */
+  /** New parameters (the ghost, the vehicle's top speed): the run starts again. */
   setParams(config: Partial<SessionConfig>): void {
     this.update({ notice: null });
     this.post({ type: 'setParams', config });

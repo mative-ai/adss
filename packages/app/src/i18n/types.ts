@@ -49,7 +49,11 @@ export interface Dictionary {
     step: string;
     stepHint: string;
     reset: string;
+    /** The vehicle's top speed: its name, its two steps (`{step}` km/h) and what it does (`{speed}`: the scenario's). */
     speed: string;
+    speedDown: string;
+    speedUp: string;
+    speedHint: string;
     ghost: string;
     ghostHint: string;
     keys: string;

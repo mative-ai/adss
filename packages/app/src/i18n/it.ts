@@ -45,7 +45,11 @@ export const it: Dictionary = {
     step: 'Passo',
     stepHint: 'Avanza di un ciclo di controllo (50 ms)',
     reset: 'Reset',
-    speed: 'Velocità di riproduzione',
+    speed: 'Velocità massima',
+    speedDown: 'Riduci la velocità massima di {step} km/h',
+    speedUp: 'Aumenta la velocità massima di {step} km/h',
+    speedHint:
+      'Il veicolo viaggia a questa velocità finché non deve frenare. A ogni cambio la corsa riparte. Lo scenario prevede {speed} km/h.',
     ghost: 'Fantasma',
     ghostHint: 'Il controllore di base, sullo stesso scenario e con lo stesso seme',
     keys: 'Tastiera: Spazio avvia e ferma, R riparte, freccia destra avanza di un passo',

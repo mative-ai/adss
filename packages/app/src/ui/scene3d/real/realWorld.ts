@@ -67,7 +67,7 @@ import {
   type SurfaceKind,
 } from './ground.ts';
 import { Materials, type MaterialSet } from './materials.ts';
-import { CAR, MOOSE, TRUCK } from './nominal.ts';
+import { CAR, CAR_PARTS, MOOSE, TRUCK } from './nominal.ts';
 import { DAY, DUSK, lightDirection, Sky, type Atmosphere } from './sky.ts';
 
 /** The order of what lies on the ground, from the bottom up; the solid things above it are drawn after, at 0. */
@@ -604,7 +604,9 @@ export class RealWorld implements World {
     const template = this.models.get(truck ? 'truck' : 'car');
     if (!template) return null;
     const { length, width, track, bodyOffset } = info.vehicle;
-    const model = instantiate(template, set, { outline: !ego, shadows: ego });
+    // The ghost is the same car with the baseline at the wheel: it has the kit, and no lettering to blur its shell.
+    const without = ego ? [] : [CAR_PARTS.livery];
+    const model = instantiate(template, set, { outline: !ego, shadows: ego, without });
     const fitted = this.fit(model, truck ? TRUCK : CAR, length, width, track, truck);
     model.position.x = bodyOffset;
     const pose = new Group();
@@ -684,7 +686,9 @@ export class RealWorld implements World {
     }
     const car = spec.length >= 2.5 ? this.models.get('car') : undefined;
     if (car && spec.kind !== 'pedestrian' && spec.kind !== 'animal') {
-      const model = instantiate(car, this.materials.traffic, { outline: false, shadows: true });
+      // A car that only stands on the road is anyone's: no sensor kit and no lettering.
+      const without = [CAR_PARTS.sensors, CAR_PARTS.livery];
+      const model = instantiate(car, this.materials.traffic, { outline: false, shadows: true, without });
       this.fit(model, CAR, spec.length, spec.width, (CAR.track * spec.width) / CAR.width, false);
       return { model, crossing: false, limbs: [], stride: 1 };
     }

@@ -6,6 +6,9 @@
  *
  * The design's rules hold in this scene too: its one green is the MPC's vehicle and the trajectory it chose; the ghost
  * is told from it without color, by being translucent and drawn with a dashed outline.
+ *
+ * The MPC's car also carries a sensor kit and Mative's wordmark (tools/models/sensors.ts, wordmark.ts), each with its
+ * own materials here.
  */
 import {
   AlwaysStencilFunc,
@@ -35,11 +38,18 @@ const GHOST_STENCIL = { stencilWrite: true, stencilRef: 1, stencilFunc: NotEqual
 /** The brand's green, and the graphite of a car that is not the MPC's. */
 const GREEN = 0x4db936;
 const GRAPHITE = 0x3a3f42;
+/** The brand's ink, which its wordmark is drawn in on the green, and the light it is drawn in on a dark ground. */
+const INK = 0x0d230b;
+const PAPER = 0xf7f8f4;
 
-/** How bright the lamps are, as a multiple of their color: by day, at dusk, and the tail lamps under braking. */
+/**
+ * How bright the lamps are, as a multiple of their color: by day, at dusk, and the tail lamps under braking. The
+ * beacon is the ring of light under the dome of the sensor kit.
+ */
 const LAMPS = {
   front: { day: 0.5, dusk: 5 },
   rear: { day: 0.25, dusk: 1.2, braking: 3.2 },
+  beacon: { day: 0.35, dusk: 2.4 },
 } as const;
 
 export class Materials {
@@ -55,6 +65,7 @@ export class Materials {
   private readonly all: Material[] = [];
   private readonly frontLamps: MeshStandardMaterial[] = [];
   private readonly rearLamps: MeshStandardMaterial[] = [];
+  private readonly beacons: MeshStandardMaterial[] = [];
   private readonly egoRear: MeshStandardMaterial;
   private dusk = false;
   private braking = false;
@@ -103,8 +114,10 @@ export class Materials {
       this.keep(new MeshStandardMaterial({ ...options, ...stencil }));
     const front = standard({ color: 0xffffff, emissive: 0xfff3dc, roughness: 0.15 });
     const rear = standard({ color: 0x4a0505, emissive: 0xff1a0a, roughness: 0.15 });
+    const beacon = standard({ color: 0x10240d, emissive: GREEN, roughness: 0.3 });
     this.frontLamps.push(front);
     this.rearLamps.push(rear);
+    this.beacons.push(beacon);
     return {
       // A metallic base under a clear coat: the coat gives the sharp mirror of the sky, the base the color.
       paint: this.keep(
@@ -114,6 +127,17 @@ export class Materials {
           roughness: 0.42,
           clearcoat: 1,
           clearcoatRoughness: 0.05,
+          ...stencil,
+        }),
+      ),
+      // The black of a car's roof, its pillars and its mirrors, under the same clear coat.
+      paint_dark: this.keep(
+        new MeshPhysicalMaterial({
+          color: 0x0b0d0c,
+          metalness: 0.1,
+          roughness: 0.4,
+          clearcoat: 0.5,
+          clearcoatRoughness: 0.12,
           ...stencil,
         }),
       ),
@@ -136,12 +160,20 @@ export class Materials {
       rim_dark: standard({ color: 0x35383b, metalness: 0.9, roughness: 0.45 }),
       lamp_front: front,
       lamp_rear: rear,
+      // The sensor kit: satin housings, the black windows the sensors look through, the ring of light under the dome.
+      sensor_shell: standard({ color: 0xe9ebe6, roughness: 0.38 }),
+      sensor_glass: standard({ color: 0x050605, metalness: 0.2, roughness: 0.08 }),
+      sensor_light: beacon,
+      // Mative's wordmark: ink on the green paint, as on the green block of its sites, and light on the dark glass.
+      livery: standard({ color: INK, roughness: 0.55 }),
+      livery_light: standard({ color: PAPER, roughness: 0.55 }),
     };
   }
 
   private light(): void {
     for (const lamp of this.frontLamps) lamp.emissiveIntensity = this.dusk ? LAMPS.front.dusk : LAMPS.front.day;
     for (const lamp of this.rearLamps) lamp.emissiveIntensity = this.dusk ? LAMPS.rear.dusk : LAMPS.rear.day;
+    for (const lamp of this.beacons) lamp.emissiveIntensity = this.dusk ? LAMPS.beacon.dusk : LAMPS.beacon.day;
     if (this.braking) this.egoRear.emissiveIntensity = LAMPS.rear.braking;
   }
 

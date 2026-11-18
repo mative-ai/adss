@@ -70,7 +70,9 @@ name.
 - `tools/models/` builds the glTF models of the realistic scene into `packages/app/src/assets/models/`
   (`npm run models`). A model changes in its code, never in its file: run the command after the change and commit the
   files with it (a test fails when the two differ). The app replaces a model's materials by their names and moves its
-  named nodes: keep both when a model is replaced by a more detailed one.
+  named nodes: keep both when a model is replaced by a more detailed one. The only name on a model is Mative's, on the
+  MPC's car (its wordmark and the sensor kit, in the nodes `livery` and `sensors`): never a car maker's badge, name or
+  grille, nor any other company's mark, and no maker or model is named in the code.
 - `deploy/` and the `Dockerfile` serve the build with an unprivileged nginx. The response headers and the
   Content-Security-Policy are in `deploy/security-headers.conf`, and `tools/deploy/headers.test.ts` guards them: no
   inline script, no `eval`, no WebAssembly, nothing but the page's own origin, no query string in a log. Change a header

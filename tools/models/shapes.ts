@@ -178,6 +178,38 @@ export function lifted(grid: Grid, distance: number): Grid {
   return { ...grid, positions };
 }
 
+/**
+ * A blister: a cap that rises from a surface around a middle point. `point(angle, share)` is its point at `angle` (rad,
+ * from +X toward +Z) and at `share` of the way out, from the middle (0) to the rim (1); `shares` are the rings it is
+ * drawn with, from the first off the middle to the rim. It faces up, and is smooth all the way around.
+ */
+export function blister(
+  point: (angle: number, share: number) => Point3,
+  around: number,
+  shares: readonly number[],
+): BufferGeometry {
+  const positions: number[] = [...point(0, 0)];
+  const index: number[] = [];
+  shares.forEach((share, j) => {
+    for (let i = 0; i < around; i++) positions.push(...point((i / around) * 2 * Math.PI, share));
+    const ring = 1 + j * around;
+    for (let i = 0; i < around; i++) {
+      const next = (i + 1) % around;
+      if (j === 0) {
+        index.push(0, ring + next, ring + i);
+      } else {
+        const inner = ring - around;
+        index.push(inner + i, inner + next, ring + next, inner + i, ring + next, ring + i);
+      }
+    }
+  });
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+  geometry.setIndex(index);
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
 /** A three.js primitive ready to merge with the others: no texture coordinates, and indexed. */
 export function plain(geometry: BufferGeometry): BufferGeometry {
   geometry.deleteAttribute('uv');

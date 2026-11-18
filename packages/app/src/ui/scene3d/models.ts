@@ -39,6 +39,8 @@ export interface VehicleMaterials {
   wheel: Material;
   /** A dashed outline over the body's edges: the ghost's, so that it is not told from the ego by color alone. */
   edge?: Material;
+  /** The housings of the sensor kit: the MPC's car and its ghost carry the kit, a car that only stands there does not. */
+  kit?: Material;
 }
 
 export interface VehicleModel {
@@ -114,6 +116,17 @@ export function vehicleModel(
     add(extruded(resources, upper, 0.84 * W), materials.cabin);
     // The roof in the body's color, over the glass: seen from behind and above, the vehicle keeps its color.
     add(box(resources, 0.34 * L, 0.07, 0.88 * W), materials.body, -0.11 * L, 1.42 * k + 0.035);
+    if (materials.kit) {
+      // The sensor kit, in the few shapes this scene has: the fairing on the roof with the lidar's dome, the pod that
+      // looks ahead, and a lidar on each front fender.
+      const roof = 1.42 * k + 0.07;
+      add(box(resources, 0.27 * L, 0.06, 0.5 * W), materials.kit, -0.09 * L, roof + 0.03);
+      add(resources.track(new CylinderGeometry(0.15, 0.18, 0.28, 10)), materials.cabin, -0.095 * L, roof + 0.2);
+      add(box(resources, 0.06 * L, 0.1, 0.28 * W), materials.kit, 0.012 * L, roof + 0.08);
+      for (const side of [1, -1]) {
+        add(box(resources, 0.2, 0.13, 0.12), materials.kit, 0.234 * L, 0.9 * k + 0.02, side * (W / 2 + 0.03));
+      }
+    }
   }
 
   // The wheels at the track's width, a little proud of the body so that the steering shows.

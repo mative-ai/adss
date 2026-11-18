@@ -143,6 +143,7 @@ export class SceneWorld {
   // always whole, and the ghost shows only beside it, wherever the two stand (in the same place, at the start of a run).
   private readonly ego = solid(EGO_STENCIL);
   private readonly cabin = solid(EGO_STENCIL);
+  private readonly kit = solid(EGO_STENCIL);
   private readonly egoWheel = solid(EGO_STENCIL);
   private readonly ghost = new MeshLambertMaterial({
     flatShading: true,
@@ -226,6 +227,7 @@ export class SceneWorld {
       this.egoWheel,
       this.wheel,
       this.ghost,
+      this.kit,
       this.ghostEdge,
       this.obstacle,
       this.ringOn,
@@ -251,6 +253,7 @@ export class SceneWorld {
     this.egoWheel.color.setHex(p.wheel);
     this.wheel.color.setHex(p.wheel);
     this.ghost.color.setHex(p.ghost);
+    this.kit.color.setHex(p.kit);
     this.ghostEdge.color.setHex(p.ghostEdge);
     this.obstacle.color.setHex(p.obstacle);
     this.ringOn.color.setHex(p.chosen);
@@ -378,10 +381,12 @@ export class SceneWorld {
       root.add(pose);
       return { pose, steered: model.steered };
     };
-    this.ghostHandle = vehicle({ body: this.ghost, cabin: this.ghost, wheel: this.ghost, edge: this.ghostEdge }, false);
+    // Both carry the sensor kit: the ghost is the same car, with the baseline at the wheel.
+    const ghost = this.ghost;
+    this.ghostHandle = vehicle({ body: ghost, cabin: ghost, wheel: ghost, edge: this.ghostEdge, kit: ghost }, false);
     this.ghostHandle.pose.renderOrder = ORDER.ghost;
     this.ghostHandle.pose.visible = false;
-    this.egoHandle = vehicle({ body: this.ego, cabin: this.cabin, wheel: this.egoWheel }, true);
+    this.egoHandle = vehicle({ body: this.ego, cabin: this.cabin, wheel: this.egoWheel, kit: this.kit }, true);
 
     this.scene.add(root);
     this.paint();

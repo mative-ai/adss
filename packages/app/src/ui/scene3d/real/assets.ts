@@ -63,10 +63,16 @@ export class Models {
 
 /**
  * A copy of a model with the materials of `set`. The model's own lines are shown only with `outline` (the ghost),
- * dashed; with `shadows` the copy casts a shadow and takes those of the others.
+ * dashed; with `shadows` the copy casts a shadow and takes those of the others. The nodes named in `without` are left
+ * off the copy, with all they hold: the sensor kit and the lettering of a car that is not the MPC's.
  */
-export function instantiate(template: Group, set: MaterialSet, options: { outline: boolean; shadows: boolean }): Group {
+export function instantiate(
+  template: Group,
+  set: MaterialSet,
+  options: { outline: boolean; shadows: boolean; without?: readonly string[] },
+): Group {
   const copy = template.clone(true);
+  for (const name of options.without ?? []) copy.getObjectByName(name)?.removeFromParent();
   copy.traverse((object: Object3D) => {
     const lines = object as LineSegments;
     if (lines.isLineSegments) {

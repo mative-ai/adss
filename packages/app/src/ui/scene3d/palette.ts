@@ -16,6 +16,8 @@ export interface ScenePalette {
   post: number;
   ego: number;
   cabin: number;
+  /** The housings of the sensor kit on the MPC's car. */
+  kit: number;
   wheel: number;
   ghost: number;
   ghostEdge: number;
@@ -37,6 +39,7 @@ export const SCENE_LIGHT: ScenePalette = {
   post: 0xf7f8f4,
   ego: 0x4db936,
   cabin: 0x0d230b,
+  kit: 0xf7f8f4,
   wheel: 0x141812,
   ghost: 0xf7f8f4,
   ghostEdge: 0x141812,
@@ -57,6 +60,7 @@ export const SCENE_DARK: ScenePalette = {
   post: 0xb0b8a6,
   ego: 0x4db936,
   cabin: 0x0d230b,
+  kit: 0xd0d6c8,
   wheel: 0x090c08,
   ghost: 0xd0d6c8,
   ghostEdge: 0xf7f8f4,

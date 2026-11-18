@@ -1,0 +1,12 @@
+{
+  "name": "@mpc-simulator/cli",
+  "description": "Headless runs in Node: scenario runs, sweeps, solver benchmark, golden comparisons.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mpc-simulator/core": "*"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  // The sources see only the ES2022 library: no DOM, no Node types. Using `window`, `document` or
+  // `performance` here is a type error (CLAUDE.md §8). Tests have their own tsconfig.test.json, so the
+  // test runner's types never leak into this program.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": []
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}

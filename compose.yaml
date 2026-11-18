@@ -1,0 +1,19 @@
+# One container, bound to the host's loopback: the host's reverse proxy ends TLS and forwards to 127.0.0.1:8080
+# (deploy/README.md).
+#   docker compose up -d --build
+services:
+  simulator:
+    build: .
+    image: mpc-simulator:local
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8080:8080'
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    pids_limit: 100

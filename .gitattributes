@@ -1,0 +1,3 @@
+# The repo is LF everywhere (.editorconfig). CI runs on Linux, and golden hashes of text fixtures must not
+# depend on a contributor's core.autocrlf setting.
+* text=auto eol=lf

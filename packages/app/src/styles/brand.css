@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+/*
+ * The theme is a class on <html> (ui/theme.ts), not the system's setting alone: the visitor can pick light, dark or the
+ * system's, and `dark:` follows the pick. `public/theme-init.js` sets the class before the first paint.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Tokens of every Mative public site, copied from `.claude/skills/mative-brand/references/token.md`
+ * (Tailwind 4). One accent only: text on `primary` is always `ink`, never white.
+ * The fonts are served by this site, never by a CDN: Poppins comes with the app's entry (main.tsx).
+ */
+
+@theme {
+  --color-primary: #4db936;
+  --color-primary-50: #edf8ea;
+  --color-primary-100: #b7e3ae;
+  --color-primary-200: #a6dc9a;
+  --color-primary-300: #94d586;
+  --color-primary-400: #70c75e;
+  --color-primary-500: #5ec04a;
+  --color-primary-600: #45a630;
+  --color-primary-700: #358125;
+  --color-primary-800: #265c1b;
+  --color-primary-900: #173710;
+  --color-primary-950: #0d230b;
+  --color-ink: #0d230b;
+
+  --color-clay-50: #f7f8f4;
+  --color-clay-100: #eff1eb;
+  --color-clay-200: #e3e7dd;
+  --color-clay-300: #d0d6c8;
+  --color-clay-400: #b0b8a6;
+  --color-clay-500: #8c9584;
+  --color-clay-600: #6c7566;
+  --color-clay-700: #50584b;
+  --color-clay-800: #363c33;
+  --color-clay-900: #20251e;
+  --color-clay-950: #141812;
+
+  --color-night-500: #4a5845;
+  --color-night-600: #33402f;
+  --color-night-700: #252f22;
+  --color-night-800: #1a2218;
+  --color-night-850: #131a12;
+  --color-night-900: #0e130d;
+  --color-night-950: #090c08;
+
+  --font-sans: 'Poppins', sans-serif;
+  --font-neu: 'Poppins', sans-serif;
+}
+
+@layer base {
+  /* Scrollbars and form controls follow the page's theme, not the system's. */
+  :root {
+    color-scheme: light;
+  }
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-white font-sans antialiased tracking-tight dark:bg-black;
+  }
+
+  /* Reduced motion (mative-brand): no transition or animation runs for a visitor who asked for less. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

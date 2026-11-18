@@ -1,0 +1,22 @@
+{
+  "id": "mu-split",
+  "vehicle": "car",
+  "speed": { "initial": 80, "reference": 80 },
+  "duration": 10,
+  "road": { "segments": [{ "kind": "straight", "length": 400 }], "width": { "left": 5.25, "right": 2.25 } },
+  "lane": { "center": 0, "width": 3.5 },
+  "surface": { "base": "dry", "zones": [{ "from": 30, "to": 400, "side": "left", "surface": "ice" }] },
+  "obstacles": [
+    {
+      "id": "stopped-car",
+      "kind": "static",
+      "length": 4.4,
+      "width": 1.8,
+      "start": { "s": 150, "ey": 0 },
+      "velocity": { "s": 0, "ey": 0 },
+      "trigger": { "kind": "egoReaches", "s": 90 },
+      "visibility": "afterTrigger"
+    }
+  ],
+  "sensor": { "period": 50, "latency": 100, "noise": { "position": 0.1, "velocity": 0.2 }, "range": 150 }
+}

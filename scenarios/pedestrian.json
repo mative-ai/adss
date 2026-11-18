@@ -1,0 +1,23 @@
+{
+  "id": "pedestrian",
+  "vehicle": "car",
+  "speed": { "initial": 50, "reference": 50 },
+  "duration": 8,
+  "road": { "segments": [{ "kind": "straight", "length": 250 }], "width": { "left": 3.5, "right": 3.5 } },
+  "lane": { "center": -1.75, "width": 3.5 },
+  "surface": { "base": "dry" },
+  "obstacles": [
+    {
+      "id": "pedestrian",
+      "kind": "pedestrian",
+      "length": 0.5,
+      "width": 0.5,
+      "start": { "s": 60, "ey": -4 },
+      "velocity": { "s": 0, "ey": 1.4 },
+      "trigger": { "kind": "egoReaches", "s": 40 },
+      "travel": 8,
+      "visibility": "always"
+    }
+  ],
+  "sensor": { "period": 50, "latency": 100, "noise": { "position": 0.1, "velocity": 0.2 }, "range": 80 }
+}

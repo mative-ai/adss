@@ -1,0 +1,23 @@
+{
+  "id": "moose",
+  "vehicle": "car",
+  "speed": { "initial": 60, "reference": 60 },
+  "duration": 8,
+  "road": { "segments": [{ "kind": "straight", "length": 250 }], "width": { "left": 3.5, "right": 3.5 } },
+  "lane": { "center": -1.75, "width": 3.5 },
+  "surface": { "base": "dry" },
+  "obstacles": [
+    {
+      "id": "moose",
+      "kind": "animal",
+      "length": 0.8,
+      "width": 2.2,
+      "start": { "s": 70, "ey": -5.1 },
+      "velocity": { "s": 0, "ey": 3 },
+      "trigger": { "kind": "egoReaches", "s": 50 },
+      "travel": 3.35,
+      "visibility": "afterTrigger"
+    }
+  ],
+  "sensor": { "period": 50, "latency": 100, "noise": { "position": 0.1, "velocity": 0.2 }, "range": 80 }
+}

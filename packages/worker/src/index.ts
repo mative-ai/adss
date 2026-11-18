@@ -1,0 +1,33 @@
+// The worker package's light entry (Phase 4): the protocol's types and constants, for the app's main
+// thread, which must not bundle the core. The worker itself is worker.ts; the session, the pacer, the frame buffers and
+// the CSV are imported by path where they run (the worker, the tests, Node).
+export {
+  DEFAULT_CONFIG,
+  FLAG,
+  FRAME,
+  FRAME_HEADER,
+  frameLayout,
+  HORIZON_RANGE,
+  MOBILE_CONFIG,
+  OBSTACLE,
+  OBSTACLE_SIZE,
+  PLAN,
+  PLAN_HEADER,
+  PLANS,
+  PROTOCOL_VERSION,
+  ROAD_SAMPLE,
+  ROAD_SAMPLE_STEP,
+  TELEMETRY_MAX,
+  VEHICLE,
+  VEHICLE_SIZE,
+  type BatchRun,
+  type ErrorCode,
+  type FrameLayout,
+  type FromWorker,
+  type SceneInfo,
+  type SessionConfig,
+  type SessionEvent,
+  type SessionMetrics,
+  type ToWorker,
+  type VehicleSummary,
+} from './protocol.ts';

@@ -1,0 +1,15 @@
+{
+  "name": "@mpc-simulator/worker",
+  "description": "Web Worker adapter around the core: message protocol, pacing, buffer pool.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mpc-simulator/core": "*"
+  }
+}

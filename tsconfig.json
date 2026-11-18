@@ -1,0 +1,10 @@
+{
+  // Repo tooling only (config files and the boundary probes); each package has its own tsconfig.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["node"]
+  },
+  "include": ["tools/**/*.ts", "vitest.config.ts"],
+  "exclude": ["tools/boundaries/fixtures/**"]
+}

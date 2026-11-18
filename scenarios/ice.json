@@ -1,0 +1,20 @@
+{
+  "id": "ice",
+  "vehicle": "car",
+  "speed": { "initial": 70, "reference": 70 },
+  "duration": 14,
+  "road": {
+    "segments": [
+      { "kind": "straight", "length": 60 },
+      { "kind": "clothoid", "length": 40, "curvatureStart": 0, "curvatureEnd": 0.008 },
+      { "kind": "arc", "length": 120, "curvature": 0.008 },
+      { "kind": "clothoid", "length": 40, "curvatureStart": 0.008, "curvatureEnd": 0 },
+      { "kind": "straight", "length": 140 }
+    ],
+    "width": { "left": 3.5, "right": 3.5 }
+  },
+  "lane": { "center": -1.75, "width": 3.5 },
+  "surface": { "base": "dry", "zones": [{ "from": 140, "to": 175, "side": "both", "surface": "ice" }] },
+  "obstacles": [],
+  "sensor": { "period": 50, "latency": 100, "noise": { "position": 0.1, "velocity": 0.2 }, "range": 80 }
+}

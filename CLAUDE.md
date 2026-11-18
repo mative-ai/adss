@@ -1,152 +1,130 @@
-# Mative MPC Simulator: Claude Code Project Policy
+# MPC Autonomous Driving Simulator: engineering rules
 
-Permanent rules for this repository. Architecture, phases,
-milestones and commands live in `docs/PLAN.md` (the approved plan), decisions in `docs/adr/` once written,
-procedures in `.claude/skills/` (Mative's working environment, not part of the public edition). The numbers of the
-sections below are cited by comments in the code and stay as they are: the public edition of this file leaves out the
-sections about Mative's own working environment. Phase 0 set up the npm workspace (`packages/core`, `worker`, `app`,
-`cli`), the gate `npm run verify`, CI (`.gitlab-ci.yml` at Mative, `.github/workflows/verify.yml` in the public
-edition), the boundary probes in `tools/boundaries/` and the first ADRs. Phase 1 put the vehicle, the road and the world in `packages/core` (ADR 0005), with the golden
-trajectory hash in `packages/core/test/golden.test.ts`. Phase 2 added the RTI-MPC and the QP solver chosen
-in ADR 0002, with `npm run bench:qp` in Node (the go/no-go runs in a Chrome worker: `/bench.html`). Phase 3 added
-the v1 scenarios in `scenarios/`, the baseline ghost, the MPC's constraints and decision layer (ADR 0001) and
-`npm run sim`. Phase 4 put the simulation in a Web Worker (ADR 0006) and built the interface in `packages/app`.
-Phase 8 (optional, started) added the realistic 3D scene in `packages/app/src/ui/scene3d/real/`, with glTF models
-built by `npm run models`. The publication kit followed (`deploy/`, `Dockerfile`, `LICENSE`, the public edition of
-the repository) and the theme switch of the navbar. `tools/reference/` is planned, and each rule applies from the
-moment its piece exists: check before assuming one does.
+Permanent rules for this repository, for people and for coding assistants alike. What the project is and how to run it
+is in `README.md`, and how to contribute is in `CONTRIBUTING.md`. The numbers of the sections below are cited by
+comments in the code and stay as they are, so a few numbers are missing.
+
+The repository is an npm workspace (`packages/core`, `worker`, `app`, `cli`) with the gate `npm run verify`, the CI in
+`.github/workflows/verify.yml` and the boundary probes in `tools/boundaries/`. Comments in the code mention the phases
+the simulator was built in: Phase 1 is the vehicle, the road and the world in `packages/core`, with the golden
+trajectory hash in `packages/core/test/golden.test.ts`; Phase 2, the RTI-MPC and the QP solver, with
+`npm run bench:qp` in Node (the go/no-go runs in a Chrome worker: `/bench.html`); Phase 3, the four scenarios in
+`scenarios/`, the baseline ghost, the MPC's constraints and decision layer, and `npm run sim`; Phase 4, the simulation
+in a Web Worker and the interface in `packages/app`; Phase 8, the realistic 3D scene in
+`packages/app/src/ui/scene3d/real/`, with glTF models built by `npm run models`. The milestones (M0 to M8) are the
+acceptance checks of those phases: section 10 says how each one is checked.
 
 ## 1. Working rules
 
-- Talk to the user in Italian. Commit messages are English Conventional Commits in the landing's style, with
-  the package or area as scope (`feat(core): …`, `fix(mpc): …`, `feat(app): …`, `docs(adr): …`): the
-  subject says what changed in the simulator's behavior.
-
-- Before a substantial task: check `git status`, read only the docs the task needs (the phase and milestone
-  in `docs/PLAN.md`, the ADR that covers the area), pick the applicable Skills and Agents, understand the
-  existing code, preserve valid local work, implement only the requested scope.
-- v1 scope is the plan's: the four v1 scenarios (pedestrian crossing, moose test, curve with an ice patch,
-  μ-split braking), at most 2 critical obstacles, the rigid truck. v1.1 scenarios, Phase 7 and the later
-  evolutions start only when the user asks.
-- Explore with targeted reads and greps. Never read `package-lock.json`, `node_modules/`, `dist/`,
-  `coverage/`, `*.tsbuildinfo`, `playwright-report/`, `test-results/` or binary assets (fonts, textures, models).
-  Golden files and the recorded-QP corpus are large: never read them whole; read their schema or one case,
-  or compare them with the CLI.
-- Playwright writes screenshots and snapshots to `.playwright-mcp/`: delete them when done, never commit
-  them.
+- Commit messages are Conventional Commits in English, with the package or area as scope (`feat(core): …`,
+  `fix(mpc): …`, `feat(app): …`): the subject says what changed in the simulator's behavior.
+- Before a substantial task: check `git status`, read `README.md`, `CONTRIBUTING.md` and the code the task touches,
+  preserve valid local work, implement only the requested scope.
+- The scope is the four scenarios (pedestrian crossing, moose test, curve with an ice patch, μ-split braking), at most 2
+  critical obstacles, and the rigid truck. More scenarios, vehicles or kinds of obstacle start only after a discussion
+  in an issue.
+- Explore with targeted reads and greps. Never read `package-lock.json`, `node_modules/`, `dist/`, `coverage/`,
+  `*.tsbuildinfo`, `playwright-report/`, `test-results/` or binary assets (fonts, textures, models). Golden files and
+  the recorded-QP corpus are large: never read them whole; read their schema or one case, or compare them with the CLI.
+- Playwright writes screenshots and snapshots to `.playwright-mcp/`: delete them when done, never commit them.
 
 ## 2. Priorities
 
-In order: correctness of physics and control, determinism, truth of content, security, privacy,
-accessibility, performance, i18n parity across it/en/es, maintainability, speed. Never trade correctness or
-determinism for frame rate: on a slow device the real-time factor drops, never the correctness of the
-result. Never invent a figure, client, certification, partner, capability or benchmark result.
+In order: correctness of physics and control, determinism, truth of content, security, privacy, accessibility,
+performance, i18n parity across it/en/es, maintainability, speed. Never trade correctness or determinism for frame
+rate: on a slow device the real-time factor drops, never the correctness of the result. Never invent a figure,
+certification, capability or benchmark result.
 
 ## 5. Secrets and personal data
 
-The simulator is a static site: everything in its bundle is readable by anyone. You may read `.env*` when
-the task needs credentials. Never print them: no secret value in replies, summaries, reproduced tool
-output, files, diffs, commit or PR text, logs or subagent prompts. Refer to a secret by variable name. To
-inspect an env file use `sed -E 's/=.*/=<redacted>/' <file>`. Do not run commands that dump the environment
-(`printenv`, `env`). Never hard-code or commit secrets.
+The simulator is a static site: everything in its bundle is readable by anyone. Never print or commit a secret: none in
+replies, summaries, tool output, files, diffs, commit or pull request text, or logs. Refer to a secret by its variable
+name.
 
 - Vite publishes every `VITE_` variable in the browser bundle: never put a secret in one.
-- The simulator receives no personal data: the token carries `{v, kid, jti, iat, exp, lng}` and nothing
-  else, and lead data stays in the landing. `localStorage` holds the token and the visitor's theme choice
-  (`mpc-theme`), never personal data. No cookies, analytics or tracking in v1.
-- No reserved Mative know-how, internal endpoint or customer data goes in the bundle.
+- The simulator receives no personal data. `localStorage` holds only the visitor's theme choice (`mpc-theme`). No
+  cookies, analytics or tracking.
+- No internal endpoint or private data goes in the bundle.
 
 ## 7. Content and claims
 
-- Copy lives in typed dictionaries for it, en and es; the language comes from the token. Every key exists
-  in all three languages, actually translated, in the same change.
-- The simulator states that it is a "simulazione didattica, non omologativa", in every language. Simulated
-  data and results are labeled as simulation; the final report is labeled "Simulazione".
-- Publish only claims and figures already on mative.ai or given by the user. A number shown as a result
-  comes from a run of the simulator. Never present the simulator as a certified or production system.
-
+- Copy lives in typed dictionaries for it, en and es; the language comes from `?lng=` or the browser, and English is the
+  default. Every key exists in all three languages, actually translated, in the same change.
+- The simulator states that it is an educational simulation, not for homologation, in every language. Simulated data and
+  results are labeled as a simulation.
+- Publish only claims and figures that the repository proves: a number shown as a result comes from a run of the
+  simulator. Never present the simulator as a certified or production system.
 - The license notices the bundled libraries require stay as the licenses require: the build writes them to
   `third-party-licenses.txt`, and what no package carries is in `packages/app/public/third-party-notices.txt`
   (QuadProg++ in full, no third-party model or texture). A new library or asset adds its notice in the same change.
 
 ## 8. Architecture boundaries and determinism
 
-- `packages/core` is the pure TypeScript simulation (`math/`, `vehicle/`, `road/`, `world/`, `sensors/`,
-  `mpc/`, `qp/`, `baseline/`, `sim/`, `scenario/`). Its lib is ES2022 without `DOM` and `zod` is its only
-  dependency: no `window` or `document`, no import of `three` or `react`. Three guards enforce it: the
-  core's tsconfig, the `mpc/core-determinism` block of `eslint.config.mjs` and `.dependency-cruiser.cjs`
-  (`npm run check:boundaries`). The probes in `tools/boundaries/` prove that each still fires (M0): never
-  loosen a guard to make a probe pass.
-- `packages/worker` is the `postMessage` adapter, the pacing and the buffer pool. `packages/cli` runs
-  headless in Node: sweeps, the solver benchmark, golden comparisons. `scenarios/*.json` are validated with
-  zod. `tools/reference/` (Python CasADi/acados) runs only offline and never reaches the bundle.
+- `packages/core` is the pure TypeScript simulation (`math/`, `vehicle/`, `road/`, `world/`, `sensors/`, `mpc/`, `qp/`,
+  `baseline/`, `sim/`, `scenario/`). Its lib is ES2022 without `DOM` and `zod` is its only dependency: no `window` or
+  `document`, no import of `three` or `react`. Three guards enforce it: the core's tsconfig, the `mpc/core-determinism`
+  block of `eslint.config.mjs` and `.dependency-cruiser.cjs` (`npm run check:boundaries`). The probes in
+  `tools/boundaries/` prove that each still fires (M0): never loosen a guard to make a probe pass.
+- `packages/worker` is the `postMessage` adapter, the pacing and the buffer pool. `packages/cli` runs headless in Node:
+  sweeps, the solver benchmark, golden comparisons. `scenarios/*.json` are validated with zod.
 - `tools/models/` builds the glTF models of the realistic scene into `packages/app/src/assets/models/`
-  (`npm run models`). A model changes in its code, never in its file: run the command after the change and commit
-  the files with it (a test fails when the two differ). The app replaces a model's materials by their names and
-  moves its named nodes: keep both when a model is replaced by a more detailed one.
+  (`npm run models`). A model changes in its code, never in its file: run the command after the change and commit the
+  files with it (a test fails when the two differ). The app replaces a model's materials by their names and moves its
+  named nodes: keep both when a model is replaced by a more detailed one.
 - `deploy/` and the `Dockerfile` serve the build with an unprivileged nginx. The response headers and the
   Content-Security-Policy are in `deploy/security-headers.conf`, and `tools/deploy/headers.test.ts` guards them: no
-  inline script, no `eval`, no WebAssembly, nothing but the page's own origin, no token in a log. Change a header
+  inline script, no `eval`, no WebAssembly, nothing but the page's own origin, no query string in a log. Change a header
   together with its test, and write a script the page needs as a file of its own (`packages/app/public/theme-init.js`).
-
-- `packages/app` (Vite, React 19, Tailwind 4, Three.js, uPlot, Canvas 2D mini-map) only renders and sends
-  commands: it never computes physics or control. Every screen covers the plan's six states: loading,
-  empty, error, partial, success, permission. UI work can start on a mock worker that runs only the
-  baseline controller.
+- `packages/app` (Vite, React 19, Tailwind 4, Three.js, uPlot, Canvas 2D mini-map) only renders and sends commands: it
+  never computes physics or control. Every screen covers five states: loading, empty, error, partial, success. UI work
+  can start on a mock worker that runs only the baseline controller.
 - SI units inside `core` (m, s, kg, rad, N); km/h, degrees and g appear only where values are shown.
-- Time is an integer tick at 1 kHz; never accumulate time in floats. Physics runs at 1 kHz, the IMU at
-  100 Hz, objects and MPC at 20 Hz, frames to the main thread at about 60 Hz.
-- Randomness comes only from seeded PRNG streams (`Prng.create(seed, stream)`, xoshiro128\*\*, ADR 0004),
-  one per purpose. Never `Math.random`, `Date.now`, `performance.now` or `new Date()` in `core`.
-- The solver stops on an iteration cap, never on a time budget. The computation delay the MPC compensates
-  is a configuration parameter, never a measured time. Measured time may change the pacing (real-time
-  factor, automatic slow motion), never the simulated result.
-- A run is rebuilt from scenario, seed, configuration and event log, and replays bit-identical in the same
-  engine (M6); comparisons across Chrome, Safari and Firefox use tolerances. Everything that changes the
-  result (horizon, maneuvers, the mobile preset with N = 20 and 3 maneuvers of ADR 0006, delays, noise) is
-  configuration recorded with the run. The ghost baseline runs in lockstep with the same seed.
-- The worker protocol is typed and versioned: `init`, `control`, `setSpeed`, `setParams`, `runBatch`,
-  `exportCsv`, `returnBuffer` in; `ready`, `frame`, `decision`, `event`, `metrics`, `csv`, `error` out.
-  Frames travel as transferred `Float64Array` buffers and come back with `returnBuffer`. A protocol change
-  updates both sides and the version in the same change.
-- A decision recorded in an ADR (RTI-MPC, the QP solver, Ed25519 token, and those that follow) changes only
-  with a new or updated ADR. Candidate maneuvers are compared on the common decision cost of their
-  nonlinear rollout, never on raw QP costs. No GPL or LGPL solver goes in the bundle.
+- Time is an integer tick at 1 kHz; never accumulate time in floats. Physics runs at 1 kHz, the IMU at 100 Hz, objects
+  and MPC at 20 Hz, frames to the main thread at about 60 Hz.
+- Randomness comes only from seeded PRNG streams (`Prng.create(seed, stream)`, xoshiro128\*\*), one per purpose. Never
+  `Math.random`, `Date.now`, `performance.now` or `new Date()` in `core`.
+- The solver stops on an iteration cap, never on a time budget. The computation delay the MPC compensates is a
+  configuration parameter, never a measured time. Measured time may change the pacing (real-time factor, automatic slow
+  motion), never the simulated result.
+- A run is rebuilt from scenario, seed, configuration and event log, and replays bit-identical in the same engine (M6);
+  comparisons across Chrome, Safari and Firefox use tolerances. Everything that changes the result (horizon, maneuvers,
+  the mobile preset with N = 20 and 3 maneuvers, delays, noise) is configuration recorded with the run. The ghost
+  baseline runs in lockstep with the same seed.
+- The worker protocol is typed and versioned: `init`, `control`, `setSpeed`, `setParams`, `runBatch`, `exportCsv`,
+  `returnBuffer` in; `ready`, `frame`, `decision`, `event`, `metrics`, `csv`, `error` out. Frames travel as transferred
+  `Float64Array` buffers and come back with `returnBuffer`. A protocol change updates both sides and the version in the
+  same change.
+- The decisions that shape the simulator (the RTI-MPC, the QP solver, the vehicle model) change only after a discussion
+  in an issue. Candidate maneuvers are compared on the common decision cost of their nonlinear rollout, never on raw QP
+  costs. No GPL or LGPL solver goes in the bundle.
 
 ## 10. Validation
 
 The gate is `npm run verify`: TypeScript without errors in every package, ESLint, Prettier, dependency-cruiser
-(`npm run check:boundaries`) and `npm test` (Vitest, including the M0 probes). A CI that is switched on runs it and
-then `npm run build`; where none is, run both before every push. Node is `^22.18` or `24`: the sources run with type
-stripping, imports carry their `.ts` extension. Run focused tests first (`npx vitest run <file>`), then the gate. By area:
+(`npm run check:boundaries`) and `npm test` (Vitest, including the M0 probes). CI runs it and then `npm run build`. Node
+is `^22.18` or `24`: the sources run with type stripping, imports carry their `.ts` extension. Run focused tests first
+(`npx vitest run <file>`), then the gate. By area:
 
-- `vehicle/` and `road/`: the analytic M1 tests (braking distance, understeer gradient, standstill, no NaN
-  on random commands, same seed same hash, at least 50 times real time in Node).
-- `qp/` and `mpc/`: solver agreement (M2), Jacobians against finite differences and the moose test (M3),
-  the scenario criteria (M4, M5), and `npm run bench:qp` for the solver in Node. The go/no-go is decided in a
-  Chrome worker on the reference laptop (`npm run dev`, then `/bench.html`; ADR 0002, Verification): p95 of a full
-  step ≤ 20 ms, p99 ≤ 35 ms, iteration cap hit in ≤ 0.5 % of QPs, chosen maneuver equal to the reference at
-  the same state in ≥ 99.5 % of steps. Node timings alone never decide it.
-- Determinism: `npm run sim -- --scenario pedestrian --seed 1` gives the same hash on every run; live run and
-  replay are bit-identical (M6); the CSV export reloads without loss and the ghost hash matches (M8).
-- UI: `npm run dev`, then Playwright (the MCP in `.mcp.json`) in light and dark, at 1440 and 390 px: valid,
-  expired and missing token, every v1 scenario up to the report, keyboard (Space, R, arrows),
-  `prefers-reduced-motion` (no camera shake, top view by default), values also in text, every language
-  whose copy changed. Then a performance trace with the chrome-devtools MCP (user-level, from the ecc
-  plugin like `ecc:frontend-design-direction`; it is not in `.mcp.json`): 60 fps with 4 horizons drawn
-  (M7), no main-thread task above 50 ms, initial resources under 2 MB, Three.js loaded only after the
-  token check.
-- Design: the evidence check (`node <skill>/scripts/check-evidence.js report.json` of
-  `ecc:frontend-design-direction`) with screenshots at 390x844 and 1440x900, then the `impeccable`
-  critique.
+- `vehicle/` and `road/`: the analytic M1 tests (braking distance, understeer gradient, standstill, no NaN on random
+  commands, same seed same hash, at least 50 times real time in Node).
+- `qp/` and `mpc/`: solver agreement (M2), Jacobians against finite differences and the moose test (M3), the scenario
+  criteria (M4, M5), and `npm run bench:qp` for the solver in Node. The go/no-go is decided in a Chrome worker on a
+  reference laptop (`npm run dev`, then `/bench.html`): p95 of a full step ≤ 20 ms, p99 ≤ 35 ms, iteration cap hit in
+  ≤ 0.5 % of QPs, chosen maneuver equal to the reference at the same state in ≥ 99.5 % of steps. Node timings alone
+  never decide it.
+- Determinism: `npm run sim -- --scenario pedestrian --seed 1` gives the same hash on every run; live run and replay
+  are bit-identical (M6); the CSV export reloads without loss and the ghost hash matches (M8).
+- UI: `npm run dev`, then a browser (Playwright, for one) in light and dark, at 1440 and 390 px: every scenario up to the
+  report, keyboard (Space, R, arrows), `prefers-reduced-motion` (no camera shake, top view by default), values also in
+  text, every language whose copy changed. Then a performance trace: 60 fps with 4 horizons drawn (M7), no main-thread
+  task above 50 ms, initial resources under 2 MB, Three.js loaded only with the 3D scene.
 
-A golden file changes only with a stated reason, never to make a failing test pass. Code that compiles is
-not done. Inspect the final diff.
+A golden file changes only with a stated reason, never to make a failing test pass. Code that compiles is not done.
+Inspect the final diff.
 
 ## 11. Done means
 
-The requested behavior exists, relevant checks pass, the same seed gives the same hash on every run and
-every golden hash that changed has its reason stated, no known regression remains in other scenarios or
-packages, configuration is documented, integration assumptions are verified, the diff is inspected and no
-unrelated work was discarded. If something is unfinished, say what remains, why, what was verified and
-what manual action is needed.
+The requested behavior exists, relevant checks pass, the same seed gives the same hash on every run and every golden
+hash that changed has its reason stated, no known regression remains in other scenarios or packages, configuration is
+documented, integration assumptions are verified, the diff is inspected and no unrelated work was discarded. If
+something is unfinished, say what remains, why, what was verified and what manual action is needed.

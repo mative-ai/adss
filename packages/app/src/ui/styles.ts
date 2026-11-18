@@ -1,5 +1,5 @@
 /**
- * Class strings of the brand's components (`mative-brand`, `references/componenti.md` and `token.md`), kept in one place
+ * Class strings of the page's components, kept in one place
  * so that a button or a card looks the same wherever it is.
  */
 

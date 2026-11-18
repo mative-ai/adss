@@ -1,5 +1,5 @@
 /*
- * uPlot's own marks in the charts' terms (mative-brand): the page's font, and a cursor that is a solid hairline, not
+ * uPlot's own marks in the charts' terms: the page's font, and a cursor that is a solid hairline, not
  * the library's dashed one (a dashed line reads as a threshold; here only the control period is one).
  */
 .uplot {

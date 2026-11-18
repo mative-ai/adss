@@ -1,8 +1,8 @@
 /**
  * The copy of the screens (Phase 4): one typed dictionary per language, it, en and es, every key in all
  * three and actually translated (CLAUDE.md §7). `{name}` marks a value the screen puts in; the three languages of a
- * string carry the same marks (i18n.test.ts). The text follows `mative-brand` (`references/testi.md`): short sentences,
- * initial capital in titles, no exclamation marks; products keep their English names.
+ * string carry the same marks (i18n.test.ts). The text is short sentences, with an initial capital in titles and no
+ * exclamation marks; products keep their English names.
  */
 import type { ScenarioId } from '../sim/scenarios.ts';
 

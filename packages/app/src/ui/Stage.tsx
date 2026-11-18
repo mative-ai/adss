@@ -5,7 +5,7 @@
  * view.
  *
  * Where the 3D scene cannot be drawn (no WebGL, a lost context, a module that does not load) the top view stays and a
- * line says so: the plan's "partial" state.
+ * line says so: the "partial" state.
  *
  * In the wide layout the 3D scene is the realistic one (Phase 8), and a line under the legend says that the lean of
  * the vehicle's body is an effect, not a result. In the narrow layout, or where the realistic scene cannot be made or

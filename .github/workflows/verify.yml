@@ -1,5 +1,5 @@
-# Every push to main and every pull request runs the same gate as `npm run verify`, then builds the app. (GitLab has
-# its own copy of this in .gitlab-ci.yml.) The actions are pinned to a commit, with its release in the comment.
+# Every push to main and every pull request runs the same gate as `npm run verify`, then builds the app. The actions are
+# pinned to a commit, with its release in the comment.
 name: verify
 
 on:

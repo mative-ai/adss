@@ -1,5 +1,5 @@
 /**
- * Package boundaries (CLAUDE.md §8, plan milestone M0). `npm run check:boundaries` cruises packages/;
+ * Package boundaries (CLAUDE.md §8, milestone M0). `npm run check:boundaries` cruises packages/;
  * tools/boundaries proves these rules still catch a core file that imports a UI library or a Node module.
  * Paths are matched anywhere in the tree (`(^|/)packages/…`) so that the probe fixtures, which mirror the
  * packages layout under tools/boundaries/fixtures/, fall under the same rules.

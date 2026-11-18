@@ -1,5 +1,5 @@
 /**
- * The colors of the 3D scene, light and dark, from the brand's tokens (`mative-brand`, `references/token.md`): one
+ * The colors of the 3D scene, light and dark, from the design tokens (styles/brand.css): one
  * green for the MPC and the trajectory it chose, the clay and night neutrals for everything else. They mirror the top
  * view's palette (drawScene.ts), so the two views and their one legend say the same thing.
  */

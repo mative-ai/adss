@@ -1,10 +1,10 @@
 /**
- * The colors of the charts, light and dark, from the brand's tokens (`mative-brand`, `references/token.md`). The brand
- * has one accent: the MPC is the green and the ghost a neutral, the same in every chart, and the two are never told
+ * The colors of the charts, light and dark, from the design tokens (styles/brand.css). The design has one accent:
+ * the MPC is the green and the ghost a neutral, the same in every chart, and the two are never told
  * apart by color alone: the ghost's line is dashed, each chart names its lines and shows their values in text, and the
  * values are also in a table.
  *
- * Checked with the palette validator of the `dataviz` skill against each theme's surface: the two lines are far apart
+ * Checked with a palette validator against each theme's surface: the two lines are far apart
  * for normal and for color-blind vision (ΔE 21.6 and 24.9 light, 11.8 and 18.5 dark); the green's contrast on the
  * light surface is 2.9:1, under 3:1, which the values in text and the table make up for. The neutral is under the
  * validator's chroma floor on purpose: it is not a second hue.

@@ -4,8 +4,8 @@
  * (tools/models/materials.ts) and take the material of that name from one of the sets made here: the MPC's vehicle,
  * the ghost, a parked car, a figure.
  *
- * The brand's rules hold in this scene too: its one green is the MPC's vehicle and the trajectory it chose; the ghost
- * is told from it without color, by being translucent and drawn with a dashed outline (mative-brand).
+ * The design's rules hold in this scene too: its one green is the MPC's vehicle and the trajectory it chose; the ghost
+ * is told from it without color, by being translucent and drawn with a dashed outline.
  */
 import {
   AlwaysStencilFunc,

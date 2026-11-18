@@ -1,5 +1,5 @@
 /**
- * The deployment's headers (deploy/): the policy for the hosting (Phase 5), no WebAssembly, and the two ways an nginx
+ * The deployment's headers (deploy/): the policy for the hosting, no WebAssembly, and the two ways an nginx
  * file loses a header or leaks something without anyone noticing: a location that sets a header of its own drops the
  * inherited ones, and a log line can carry the query string, where something private may travel.
  */

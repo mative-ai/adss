@@ -5,7 +5,7 @@
  * the MPC braking in its lane ('stop'). Both get what the scenario lets a controller know: the obstacle tracks of
  * their own sensor, the friction preview, vx ≥ 0 with the low-speed model (standstill) and the road's demand on
  * curves. The decision layer counts a track as standing below 2.5 σ of the scenario's own sensor velocity noise
- * (core stillLateralSpeed). The ghost is the baseline controller, with its own sensor, as the plan's comparison.
+ * (core stillLateralSpeed). The ghost is the baseline controller, with its own sensor, as the comparison the report shows.
  *
  * Each step solver is wrapped to time each QP, and the ego's control step is timed whole (observe, predict, every
  * candidate's QP and rollout, the decision); the times are measured here, in the CLI, never in the core.

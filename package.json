@@ -1,7 +1,15 @@
 {
   "name": "mpc-simulator",
-  "description": "MPC - Mative MPC Simulator",
+  "description": "An interactive MPC autonomous driving simulator that runs in the browser",
   "license": "MIT",
+  "homepage": "https://github.com/mative-ai/adss#readme",
+  "bugs": {
+    "url": "https://github.com/mative-ai/adss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mative-ai/adss.git"
+  },
   "private": true,
   "type": "module",
   "workspaces": [

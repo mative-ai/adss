@@ -65,6 +65,9 @@ export const en: Dictionary = {
     loading3d: 'Loading the 3D view',
     noWebgl: 'The 3D view is not available on this device. The top view stays.',
     lean: 'The roll and pitch of the body are a visual effect derived from the accelerations: the simulation does not compute them.',
+    orbit:
+      'With the mouse: drag to look around the vehicle, use the wheel to move closer or farther, double-click to go back to the first view.',
+    resetView: 'First view',
     ego: 'MPC',
     ghost: 'Ghost',
     chosenPlan: 'Chosen trajectory',

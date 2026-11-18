@@ -72,6 +72,9 @@ export interface Dictionary {
     noWebgl: string;
     /** The realistic scene leans the vehicle's body with its accelerations: an effect, not a result of the run. */
     lean: string;
+    /** How the 3D view is moved with a mouse, and the button that gives the camera back to the road. */
+    orbit: string;
+    resetView: string;
     ego: string;
     ghost: string;
     chosenPlan: string;

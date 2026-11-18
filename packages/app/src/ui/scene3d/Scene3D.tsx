@@ -12,6 +12,9 @@
  * The drawing's pixels follow the display's density (at most 2) and drop when the frames come late (resolution.ts);
  * the look follows the page's light or dark theme (the visitor's pick, ui/theme.ts); the camera's shake at the ego's impact and the body's lean
  * are left out for a visitor who asked for reduced motion.
+ *
+ * With a mouse the visitor looks at the vehicle from where they like (camera.ts): a drag turns the view around it, the
+ * wheel brings it closer or farther, and a double click, or the button that appears, gives the camera back to the road.
  */
 import { useEffect, useRef, useState } from 'react';
 
@@ -20,6 +23,7 @@ import type { SceneInfo } from '@mpc-simulator/worker';
 import type { SimulationStore } from '../../sim/store.ts';
 import type { RoadGeometry } from '../roadGeometry.ts';
 import { useTheme } from '../ThemeProvider.tsx';
+import { CHASE_ORBIT, dragOrbit, zoomOrbit, type Orbit } from './camera.ts';
 import { AdaptiveResolution } from './resolution.ts';
 import type { Inspection, World } from './types.ts';
 import { SceneWorld } from './world.ts';
@@ -27,6 +31,8 @@ import { SceneWorld } from './world.ts';
 const MAX_DPR = 2;
 /** A gap between two frames of the display longer than this, ms, is a pause (a hidden tab), not a slow frame. */
 const PAUSE_MS = 250;
+/** The pixels a pressed mouse moves before its move is a drag of the view. */
+const DRAG_START = 3;
 
 export interface Scene3DProps {
   store: SimulationStore;
@@ -36,6 +42,8 @@ export interface Scene3DProps {
   label: string;
   /** What is said while the realistic scene loads its models. */
   loading: string;
+  /** The name of the button that gives the camera back to the road, after a visitor moved it. */
+  resetView: string;
   /** The realistic scene, or the low-poly one. */
   detail: 'real' | 'basic';
   onUnavailable: () => void;
@@ -60,12 +68,16 @@ export default function Scene3D({
   road,
   label,
   loading,
+  resetView,
   detail,
   onUnavailable,
   onDowngrade,
 }: Scene3DProps) {
   const host = useRef<HTMLDivElement>(null);
   const world = useRef<World | null>(null);
+  // Whether the visitor holds the camera, and the way to give it back to the road from outside the effect.
+  const [orbiting, setOrbiting] = useState(false);
+  const giveBack = useRef<() => void>(() => undefined);
   // The run's scene as of the last render, for the effect that makes the world: it must not run again with each run.
   const run = useRef({ scene, road });
   const [ready, setReady] = useState(false);
@@ -91,7 +103,6 @@ export default function Scene3D({
       // The visitor may have picked another theme while the world was being made.
       if (theme.current !== initial) created.setTheme(theme.current);
       created.setReducedMotion?.(reduced.matches);
-      created.inspect?.(inspection());
 
       const resolution = new AdaptiveResolution(Math.min(window.devicePixelRatio || 1, MAX_DPR));
       let width = 0;
@@ -118,6 +129,60 @@ export default function Scene3D({
         else onUnavailable();
       };
       canvas.addEventListener('webglcontextlost', onLost);
+
+      // The visitor's own view, with the mouse: a drag turns it around the vehicle, the wheel brings it closer or
+      // farther, a double click gives the camera back to the road. A finger still scrolls the page.
+      let orbit: Orbit | null = null;
+      let drag: { id: number; x: number; y: number; turned: boolean } | null = null;
+      const look = (next: Orbit | null) => {
+        orbit = next;
+        created.orbit(next);
+        setOrbiting(next !== null);
+      };
+      giveBack.current = () => look(null);
+      const onDown = (event: PointerEvent) => {
+        if (event.pointerType === 'touch' || event.button !== 0) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, turned: false };
+        element.setPointerCapture(event.pointerId);
+      };
+      const onMove = (event: PointerEvent) => {
+        if (!drag || event.pointerId !== drag.id) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        // A click that slips a pixel or two is not a drag.
+        if (!drag.turned && Math.hypot(dx, dy) < DRAG_START) return;
+        drag.turned = true;
+        drag.x = event.clientX;
+        drag.y = event.clientY;
+        element.style.cursor = 'grabbing';
+        look(dragOrbit(orbit ?? CHASE_ORBIT, dx, dy));
+      };
+      const onUp = (event: PointerEvent) => {
+        if (!drag || event.pointerId !== drag.id) return;
+        drag = null;
+        element.style.cursor = '';
+        if (element.hasPointerCapture(event.pointerId)) element.releasePointerCapture(event.pointerId);
+      };
+      const onWheel = (event: WheelEvent) => {
+        const from = orbit ?? CHASE_ORBIT;
+        const next = zoomOrbit(from, event.deltaY);
+        // At either end of its range the wheel is the page's again.
+        if (next.distance === from.distance) return;
+        event.preventDefault();
+        look(next);
+      };
+      const onDouble = () => look(null);
+      element.addEventListener('pointerdown', onDown);
+      element.addEventListener('pointermove', onMove);
+      element.addEventListener('pointerup', onUp);
+      element.addEventListener('pointercancel', onUp);
+      element.addEventListener('wheel', onWheel, { passive: false });
+      element.addEventListener('dblclick', onDouble);
+      // A place asked for in the address (the development server's): the vehicle's is the visitor's view from the
+      // start, an obstacle's is an inspection of its own.
+      const asked = inspection();
+      if (asked?.target === 'ego') look(asked);
+      else created.inspect?.(asked);
 
       const loop = (now: number) => {
         raf = requestAnimationFrame(loop);
@@ -160,6 +225,15 @@ export default function Scene3D({
         observer.disconnect();
         reduced.removeEventListener('change', onMotion);
         canvas.removeEventListener('webglcontextlost', onLost);
+        element.removeEventListener('pointerdown', onDown);
+        element.removeEventListener('pointermove', onMove);
+        element.removeEventListener('pointerup', onUp);
+        element.removeEventListener('pointercancel', onUp);
+        element.removeEventListener('wheel', onWheel);
+        element.removeEventListener('dblclick', onDouble);
+        element.style.cursor = '';
+        giveBack.current = () => undefined;
+        setOrbiting(false);
         world.current = null;
         created.dispose();
         canvas.remove();
@@ -210,7 +284,16 @@ export default function Scene3D({
 
   return (
     <div className="relative size-full">
-      <div ref={host} role="img" aria-label={label} className="size-full" />
+      <div ref={host} role="img" aria-label={label} className="size-full [@media(pointer:fine)]:cursor-grab" />
+      {orbiting && (
+        <button
+          type="button"
+          onClick={() => giveBack.current()}
+          className="absolute bottom-3 left-3 min-h-9 rounded-full border border-white/70 bg-white/85 px-3.5 text-sm font-medium text-clay-900 shadow-[0_10px_30px_-18px_rgba(20,24,18,0.6)] backdrop-blur transition duration-200 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:border-white/10 dark:bg-night-900/85 dark:text-white dark:hover:bg-night-800"
+        >
+          {resetView}
+        </button>
+      )}
       {!ready && (
         <p
           role="status"

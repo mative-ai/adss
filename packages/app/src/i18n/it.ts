@@ -64,6 +64,9 @@ export const it: Dictionary = {
     loading3d: 'Caricamento della vista 3D',
     noWebgl: 'La vista 3D non è disponibile su questo dispositivo. Resta la vista dall’alto.',
     lean: 'Rollio e beccheggio della carrozzeria sono un effetto visivo ricavato dalle accelerazioni: la simulazione non li calcola.',
+    orbit:
+      'Con il mouse: trascina per girare intorno al veicolo, usa la rotella per avvicinarti o allontanarti, doppio clic per tornare alla vista iniziale.',
+    resetView: 'Vista iniziale',
     ego: 'MPC',
     ghost: 'Fantasma',
     chosenPlan: 'Traiettoria scelta',

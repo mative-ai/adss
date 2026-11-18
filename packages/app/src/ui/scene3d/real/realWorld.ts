@@ -48,7 +48,7 @@ import type { SceneInfo } from '@mpc-simulator/worker';
 
 import type { FrameView, VehicleView } from '../../../sim/frame.ts';
 import type { RoadGeometry } from '../../roadGeometry.ts';
-import { chaseCamera, SHAKE_SECONDS, shakeOffset } from '../camera.ts';
+import { SHAKE_SECONDS, shakeOffset, ViewCamera, type Orbit } from '../camera.ts';
 import { dashMesh, ribbonIndices, ringMesh, stripMesh, writeRibbon, type FlatMesh } from '../geometry.ts';
 import { Resources } from '../models.ts';
 import { SCENE_DARK, SCENE_LIGHT } from '../palette.ts';
@@ -229,6 +229,8 @@ export class RealWorld implements World {
   private readonly point = new Vector3();
   private shakeAge = SHAKE_SECONDS;
   private view: Inspection | null = null;
+  /** The chase camera, or the place a visitor looks from. */
+  private readonly eye = new ViewCamera();
 
   /** Throws when the browser gives no WebGL context, or one that cannot draw this scene: the caller falls back. */
   constructor(canvas: HTMLCanvasElement, dark: boolean, models: Models) {
@@ -432,6 +434,13 @@ export class RealWorld implements World {
 
   inspect(view: Inspection | null): void {
     this.view = view;
+    this.stale = true;
+  }
+
+  orbit(view: Orbit | null): void {
+    this.eye.set(view, !this.reduced);
+    // The visitor's own view takes the place of an inspection asked for in the address.
+    this.view = null;
     this.stale = true;
   }
 
@@ -861,9 +870,10 @@ export class RealWorld implements World {
   }
 
   render(elapsed: number): boolean {
-    const moving = this.settle(elapsed);
+    const settling = this.settle(elapsed);
     const c = this.cameraPose;
-    chaseCamera(this.anchor.x, this.anchor.y, this.anchor.heading, c);
+    const turning = this.eye.camera(this.anchor.x, this.anchor.y, this.anchor.heading, elapsed, c);
+    const moving = settling || turning;
     let x = c[0] ?? 0;
     let y = c[1] ?? 0;
     let z = c[2] ?? 0;

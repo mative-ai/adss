@@ -64,6 +64,9 @@ export const es: Dictionary = {
     loading3d: 'Cargando la vista 3D',
     noWebgl: 'La vista 3D no está disponible en este dispositivo. Queda la vista cenital.',
     lean: 'El balanceo y el cabeceo de la carrocería son un efecto visual derivado de las aceleraciones: la simulación no los calcula.',
+    orbit:
+      'Con el ratón: arrastra para girar alrededor del vehículo, usa la rueda para acercarte o alejarte, doble clic para volver a la vista inicial.',
+    resetView: 'Vista inicial',
     ego: 'MPC',
     ghost: 'Fantasma',
     chosenPlan: 'Trayectoria elegida',

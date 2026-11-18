@@ -7,6 +7,7 @@ import type { SceneInfo } from '@mpc-simulator/worker';
 
 import type { FrameView } from '../../sim/frame.ts';
 import type { RoadGeometry } from '../roadGeometry.ts';
+import type { Orbit } from './camera.ts';
 
 export interface World {
   /** The drawing is behind what the scene holds (a new size, theme or run): the next `render` brings it up to date. */
@@ -22,6 +23,8 @@ export interface World {
   shake(): void;
   /** Draws the scene, `elapsed` ms after the frame before; true while something still moves by itself. */
   render(elapsed: number): boolean;
+  /** Looks at the vehicle from the place a visitor chose with the mouse, or follows it from behind again (null). */
+  orbit(view: Orbit | null): void;
   dispose(): void;
   /** Leaves out what moves only for effect: the lean of a body under acceleration. */
   setReducedMotion?(reduced: boolean): void;

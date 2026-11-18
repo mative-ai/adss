@@ -43,7 +43,7 @@ import type { SceneInfo } from '@mpc-simulator/worker';
 
 import type { FrameView, VehicleView } from '../../sim/frame.ts';
 import type { RoadGeometry } from '../roadGeometry.ts';
-import { chaseCamera, SHAKE_SECONDS, shakeOffset } from './camera.ts';
+import { SHAKE_SECONDS, shakeOffset, ViewCamera, type Orbit } from './camera.ts';
 import { dashMesh, hatchMesh, ribbonIndices, ringMesh, stripMesh, writeRibbon, type FlatMesh } from './geometry.ts';
 import { obstacleModel, Resources, vehicleModel, type VehicleMaterials } from './models.ts';
 import { SCENE_DARK, SCENE_LIGHT, slipperiness, type ScenePalette } from './palette.ts';
@@ -179,6 +179,9 @@ export class SceneWorld {
   private readonly anchor = { x: 0, y: 0, heading: 0 };
   private readonly offset = { side: 0, up: 0 };
   private shakeAge = SHAKE_SECONDS;
+  /** The chase camera, or the place a visitor looks from. */
+  private readonly eye = new ViewCamera();
+  private reduced = false;
 
   /** Throws when the browser gives no WebGL context: the caller falls back to the top view. */
   constructor(canvas: HTMLCanvasElement, dark: boolean) {
@@ -224,10 +227,10 @@ export class SceneWorld {
       this.post,
       this.ego,
       this.cabin,
+      this.kit,
       this.egoWheel,
       this.wheel,
       this.ghost,
-      this.kit,
       this.ghostEdge,
       this.obstacle,
       this.ringOn,
@@ -250,10 +253,10 @@ export class SceneWorld {
     this.post.color.setHex(p.post);
     this.ego.color.setHex(p.ego);
     this.cabin.color.setHex(p.cabin);
+    this.kit.color.setHex(p.kit);
     this.egoWheel.color.setHex(p.wheel);
     this.wheel.color.setHex(p.wheel);
     this.ghost.color.setHex(p.ghost);
-    this.kit.color.setHex(p.kit);
     this.ghostEdge.color.setHex(p.ghostEdge);
     this.obstacle.color.setHex(p.obstacle);
     this.ringOn.color.setHex(p.chosen);
@@ -494,10 +497,20 @@ export class SceneWorld {
     this.shakeAge = 0;
   }
 
+  /** A visitor who asked for reduced motion: the look of an orbit goes to the vehicle at once. */
+  setReducedMotion(reduced: boolean): void {
+    this.reduced = reduced;
+  }
+
+  orbit(view: Orbit | null): void {
+    this.eye.set(view, !this.reduced);
+    this.stale = true;
+  }
+
   /** Draws the scene, `elapsed` ms after the frame before; true while the camera still moves by itself. */
   render(elapsed: number): boolean {
     const c = this.cameraPose;
-    chaseCamera(this.anchor.x, this.anchor.y, this.anchor.heading, c);
+    const turning = this.eye.camera(this.anchor.x, this.anchor.y, this.anchor.heading, elapsed, c);
     let x = c[0] ?? 0;
     let y = c[1] ?? 0;
     let z = c[2] ?? 0;
@@ -513,7 +526,7 @@ export class SceneWorld {
     this.camera.lookAt(c[3] ?? 0, c[4] ?? 0, c[5] ?? 0);
     this.renderer.render(this.scene, this.camera);
     this.stale = false;
-    return this.shakeAge < SHAKE_SECONDS;
+    return turning || this.shakeAge < SHAKE_SECONDS;
   }
 
   /** Frees the scene and its WebGL context. */

@@ -7,6 +7,9 @@
  * Where the 3D scene cannot be drawn (no WebGL, a lost context, a module that does not load) the top view stays and a
  * line says so: the "partial" state.
  *
+ * With a mouse the 3D scene is looked at from where the visitor likes (scene3d/Scene3D.tsx), and a line under the
+ * legend says how.
+ *
  * In the wide layout the 3D scene is the realistic one (Phase 8), and a line under the legend says that the lean of
  * the vehicle's body is an effect, not a result. In the narrow layout, or where the realistic scene cannot be made or
  * is too slow, the low-poly scene of Phase 4 is drawn in its place.
@@ -30,6 +33,8 @@ type Mode = '3d' | 'top';
 
 /** From this width on the page has its three columns, and the 3D view is the realistic scene. */
 const WIDE_QUERY = '(min-width: 1024px)';
+/** A pointer that hovers and points finely: a mouse, or a trackpad. */
+const MOUSE_QUERY = '(hover: hover) and (pointer: fine)';
 
 const SEGMENT =
   'min-h-9 rounded-full px-3.5 text-sm font-medium transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50';
@@ -62,6 +67,8 @@ function StageView({ store, scene, ghost }: { store: SimulationStore; scene: Sce
   const unavailable = useCallback(() => setAvailable(false), []);
   // The realistic scene is for the wide layout; where it cannot be made, or is too slow, the low-poly one takes over.
   const wide = useMediaQuery(WIDE_QUERY);
+  // The 3D view is moved around with a mouse: the line that says how is for who has one.
+  const mouse = useMediaQuery(MOUSE_QUERY);
   const [plain, setPlain] = useState(false);
   const downgrade = useCallback(() => setPlain(true), []);
   const detail = wide && !plain ? 'real' : 'basic';
@@ -86,6 +93,7 @@ function StageView({ store, scene, ghost }: { store: SimulationStore; scene: Sce
                 road={road}
                 label={t.view.label3d}
                 loading={t.view.loading3d}
+                resetView={t.view.resetView}
                 detail={detail}
                 onUnavailable={unavailable}
                 onDowngrade={downgrade}
@@ -138,6 +146,7 @@ function StageView({ store, scene, ghost }: { store: SimulationStore; scene: Sce
         </p>
       )}
       <Legend scene={scene} ghost={ghost} />
+      {mode === '3d' && mouse && <p className={`mt-2 text-[13px] ${MUTED}`}>{t.view.orbit}</p>}
       {mode === '3d' && detail === 'real' && !reduced && <p className={`mt-2 text-[13px] ${MUTED}`}>{t.view.lean}</p>}
     </div>
   );

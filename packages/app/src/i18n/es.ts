@@ -7,7 +7,6 @@ export const es: Dictionary = {
   disclaimer: 'Simulación didáctica, no válida para homologación',
   simulation: 'Simulación',
   skipToContent: 'Ir al contenido',
-  contact: 'Habla con nosotros',
   theme: { label: 'Tema', light: 'Claro', dark: 'Oscuro', system: 'Automático, como el dispositivo' },
   loading: 'Iniciando el simulador',
   error: {

@@ -1,7 +1,6 @@
 /**
- * The theme switch of the navbar (`mative-brand`, `references/navbar.md`): light, the system's or dark, shown side by
- * side so the one in force is always in sight. A group of radio buttons: each one has the name of its choice for a
- * screen reader and for a pointer's tooltip.
+ * The theme switch of the top row: light, the system's or dark, shown side by side so the one in force is always in
+ * sight. A group of radio buttons: each one has the name of its choice for a screen reader and for a pointer's tooltip.
  */
 import { useI18n } from '../i18n/context.tsx';
 import { DeviceIcon, MoonIcon, SunIcon } from './icons.tsx';
@@ -18,7 +17,7 @@ export function ThemeSwitch() {
     <div
       role="radiogroup"
       aria-label={t.theme.label}
-      className="mx-2 flex items-center gap-0.5 self-center rounded-xl bg-clay-100 p-0.5 md:mx-3 dark:bg-night-800"
+      className="flex items-center gap-0.5 rounded-xl bg-clay-100 p-0.5 dark:bg-night-800"
     >
       {THEME_CHOICES.map((id) => {
         const Icon = ICONS[id];

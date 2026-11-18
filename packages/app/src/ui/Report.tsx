@@ -1,16 +1,14 @@
 /**
  * The report at the end of a run (Phase 4: the success state): the MPC's metrics and the ghost's side
- * by side, labeled "Simulazione" as everything the simulator shows is (CLAUDE.md §7). Every figure comes from the run's
+ * by side, labeled as a simulation, as everything the simulator shows is (CLAUDE.md §7). Every figure comes from the run's
  * metrics, measured on the simulated world; the units are the ones people read (km/h, degrees, g), converted here from
  * the SI units of the core. A figure the run does not have (the TTC of a run that never closed in) is a dash.
  */
 import type { SessionMetrics } from '@mpc-simulator/worker';
 
-import { LANDING_URL } from '../access.ts';
 import { useI18n } from '../i18n/context.tsx';
 import { format } from '../i18n/index.ts';
-import { ExternalIcon } from './icons.tsx';
-import { CARD, CARD_TITLE, CHIP, MUTED, PRIMARY } from './styles.ts';
+import { CARD, CARD_TITLE, CHIP, MUTED } from './styles.ts';
 
 const G = 9.81;
 
@@ -87,12 +85,6 @@ export function Report({ metrics }: { metrics: SessionMetrics }) {
             ))}
           </tbody>
         </table>
-      </div>
-      <div>
-        <a href={LANDING_URL} className={PRIMARY}>
-          {t.contact}
-          <ExternalIcon />
-        </a>
       </div>
     </section>
   );

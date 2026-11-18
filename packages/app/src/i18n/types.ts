@@ -21,8 +21,6 @@ export interface Dictionary {
   /** The label of every result: simulated, never measured. */
   simulation: string;
   skipToContent: string;
-  /** The action that leads to Mative's contact page: in the navbar and under the result. */
-  contact: string;
   /** The theme switch of the navbar: the group's name, then the name of each choice. */
   theme: { label: string; light: string; dark: string; system: string };
   loading: string;

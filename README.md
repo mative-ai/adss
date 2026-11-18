@@ -7,6 +7,18 @@ same road and with the same random seed.
 > **Educational simulation, not for homologation.** It shows how a controller reasons in a critical situation. It is not
 > a certified or a production system, and the figures it shows describe the simulated vehicle only.
 
+## See it run
+
+![Moose test: the vehicle steers around a moose that steps into its lane, along the trajectory it chose](media/moose-test.gif)
+
+| Look around the vehicle                                                                                  | Drive at dusk                                                                                                   |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| ![The vehicle seen from all around, with the sensor kit on its roof and fenders](media/look-around.gif)  | ![Curve with an ice patch at dusk: the vehicle crosses the ice with its headlamps on](media/ice-curve-dusk.gif) |
+| Drag with the mouse to turn the view, use the wheel to move closer, double-click to go back to the road. | The curve with an ice patch, in the dark theme.                                                                 |
+
+The clips are recorded from the simulator, one frame for each 50 ms control cycle, at the speed each scenario is written
+for. The sensors drawn on the vehicle are illustration: the simulation works on a list of tracked objects.
+
 ## The scenarios
 
 | Scenario                | What happens                                                                                           |
@@ -17,6 +29,9 @@ same road and with the same random seed.
 | μ-split braking         | At 80 km/h, the left wheels are on ice and the right ones on dry asphalt. A stopped car is 60 m ahead. |
 
 Each run ends with a report that sets the MPC against the baseline. Every figure in it comes from the run.
+
+The vehicle's top speed can be set from 30 to 130 km/h. Each scenario is written for one speed, and a run at another
+shows what that speed leads to.
 
 ## How it works
 

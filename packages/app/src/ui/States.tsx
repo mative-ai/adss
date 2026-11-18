@@ -1,12 +1,10 @@
 /**
- * The screens that are not the simulator (Phase 4, the six states): loading while the worker starts, the
- * error of a run that was dropped or a worker that does not answer (with the way out of each), and the permission state of
- * a visitor without a valid access link (a sentence and the link to the landing's form). The simulator itself is the
+ * The screens that are not the simulator (Phase 4, the five states): loading while the worker starts, and the error of a
+ * run that was dropped or a worker that does not answer (with the way out of each). The simulator itself is the
  * "success" state, with the first scenario already chosen (the "empty" one) and the "partial" one in its warnings.
  */
-import { LANDING_URL } from '../access.ts';
 import { useI18n } from '../i18n/context.tsx';
-import { ExternalIcon, ResetIcon } from './icons.tsx';
+import { ResetIcon } from './icons.tsx';
 import { CARD, CARD_TITLE, MUTED, PRIMARY } from './styles.ts';
 
 export function LoadingState() {
@@ -42,20 +40,6 @@ export function ErrorState({ crashed, message, onReset }: { crashed: boolean; me
           {e.reset}
         </button>
       )}
-    </div>
-  );
-}
-
-export function PermissionState() {
-  const { t } = useI18n();
-  return (
-    <div className={`${CARD} flex flex-col items-start gap-4`}>
-      <h2 className={CARD_TITLE}>{t.permission.title}</h2>
-      <p className={`max-w-[60ch] text-base leading-relaxed ${MUTED}`}>{t.permission.body}</p>
-      <a href={LANDING_URL} className={PRIMARY}>
-        {t.permission.action}
-        <ExternalIcon />
-      </a>
     </div>
   );
 }

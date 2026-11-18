@@ -35,8 +35,6 @@ export interface Dictionary {
     /** `{message}`: what the worker refused. */
     refused: string;
   };
-  /** No access link, or an expired one. */
-  permission: { title: string; body: string; action: string };
   /** Automatic slow motion; `{rate}` is the rate it keeps. */
   slow: { title: string; body: string };
   scenario: {

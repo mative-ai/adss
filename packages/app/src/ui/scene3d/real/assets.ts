@@ -1,6 +1,6 @@
 /**
  * The models of the realistic scene (Phase 8): binary glTF files made by tools/models, fetched on
- * demand (never before the access check, and only the ones a run needs) and kept for as long as the scene lives. A
+ * demand (only the ones a run needs) and kept for as long as the scene lives. A
  * model is a template: `instantiate` copies its nodes for one vehicle or obstacle and gives every part the material
  * of its name from a set (materials.ts); the geometry is shared by all the copies.
  */

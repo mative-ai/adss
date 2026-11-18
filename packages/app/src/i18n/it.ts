@@ -18,11 +18,6 @@ export const it: Dictionary = {
     reload: 'Ricarica la pagina',
     refused: 'Comando non accettato: {message}',
   },
-  permission: {
-    title: 'Serve un link di accesso',
-    body: 'Il link manca o è scaduto. Richiedine uno nuovo dal sito di Mative.',
-    action: 'Vai al sito di Mative',
-  },
   slow: {
     title: 'Rallentatore automatico',
     body: 'Questo dispositivo non riesce a stare al passo: la simulazione va a {rate} del tempo reale. Il risultato non cambia.',

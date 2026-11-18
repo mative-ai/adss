@@ -45,13 +45,6 @@ export const ResetIcon = () => (
   </Icon>
 );
 
-export const ExternalIcon = () => (
-  <Icon>
-    <path d="M17 7l-10 10" />
-    <path d="M8 7l9 0l0 9" />
-  </Icon>
-);
-
 export const CheckIcon = () => (
   <Icon>
     <path d="M5 12l5 5l10 -10" />

@@ -18,11 +18,6 @@ export const es: Dictionary = {
     reload: 'Recargar la página',
     refused: 'Comando no aceptado: {message}',
   },
-  permission: {
-    title: 'Se necesita un enlace de acceso',
-    body: 'El enlace falta o ha caducado. Solicita uno nuevo en el sitio web de Mative.',
-    action: 'Ir al sitio web de Mative',
-  },
   slow: {
     title: 'Cámara lenta automática',
     body: 'Este dispositivo no puede seguir el ritmo: la simulación va a {rate} del tiempo real. El resultado no cambia.',

@@ -6,7 +6,15 @@
 import { describe, expect, it } from 'vitest';
 
 import { SCENARIOS } from '../sim/scenarios.ts';
-import { DICTIONARIES, format, LANGUAGES, marksOf, numberFormatter, resolveLanguage } from './index.ts';
+import {
+  DICTIONARIES,
+  format,
+  LANGUAGES,
+  marksOf,
+  numberFormatter,
+  resolveLanguage,
+  supportedLanguage,
+} from './index.ts';
 
 type Leaves = Map<string, string>;
 
@@ -54,22 +62,28 @@ describe('the dictionaries', () => {
     }
   });
 
-  it('carry the same {marks} in the three languages of a string', () => {
-    for (const [path, text] of byLanguage.it) {
-      expect(marksOf(byLanguage.en.get(path) ?? ''), `en ${path}`).toEqual(marksOf(text));
-      expect(marksOf(byLanguage.es.get(path) ?? ''), `es ${path}`).toEqual(marksOf(text));
+  it('carry the same {marks} in every language of a string', () => {
+    for (const [path, text] of byLanguage.en) {
+      for (const language of LANGUAGES) {
+        expect(marksOf(byLanguage[language].get(path) ?? ''), `${language} ${path}`).toEqual(marksOf(text));
+      }
     }
   });
 
-  it('are translated: a string equal in two languages is one that is the same word in both', () => {
+  it('are translated: languages with the same string are those that spell that word alike', () => {
     const untranslated: string[] = [];
-    for (const [path, text] of byLanguage.it) {
-      const english = byLanguage.en.get(path);
-      const spanish = byLanguage.es.get(path);
+    for (const path of byLanguage.en.keys()) {
+      const groups = new Map<string, string[]>();
+      for (const language of LANGUAGES) {
+        const text = byLanguage[language].get(path) ?? '';
+        groups.set(text, [...(groups.get(text) ?? []), language]);
+      }
       const same = SAME_IN[path] ?? [];
-      if (text === english && !same.includes('en')) untranslated.push(`it = en: ${path}`);
-      if (text === spanish && !same.includes('es')) untranslated.push(`it = es: ${path}`);
-      if (english === spanish && same.length < 3) untranslated.push(`en = es: ${path}`);
+      for (const group of groups.values()) {
+        if (group.length > 1 && !group.every((language) => same.includes(language))) {
+          untranslated.push(`${group.join(' = ')}: ${path}`);
+        }
+      }
     }
     expect(untranslated).toEqual([]);
   });
@@ -94,12 +108,20 @@ describe('the dictionaries', () => {
 });
 
 describe('the language tools', () => {
-  it('choose a supported language from a tag, Italian by default', () => {
+  it('choose a supported language from a tag, English by default', () => {
     expect(resolveLanguage('es-MX')).toBe('es');
     expect(resolveLanguage('EN')).toBe('en');
-    expect(resolveLanguage('de-DE')).toBe('it');
-    expect(resolveLanguage(null)).toBe('it');
-    expect(resolveLanguage('')).toBe('it');
+    expect(resolveLanguage('it-IT')).toBe('it');
+    expect(resolveLanguage('de-DE')).toBe('en');
+    expect(resolveLanguage(null)).toBe('en');
+    expect(resolveLanguage('')).toBe('en');
+  });
+
+  it('say whether a tag names a supported language at all', () => {
+    expect(supportedLanguage('es-MX')).toBe('es');
+    expect(supportedLanguage('de-DE')).toBeUndefined();
+    expect(supportedLanguage('')).toBeUndefined();
+    expect(supportedLanguage(undefined)).toBeUndefined();
   });
 
   it('fill the marks of a string, leaving one without a value as written', () => {

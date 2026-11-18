@@ -18,11 +18,6 @@ export const en: Dictionary = {
     reload: 'Reload the page',
     refused: 'Command not accepted: {message}',
   },
-  permission: {
-    title: 'An access link is needed',
-    body: 'The link is missing or has expired. Request a new one from the Mative website.',
-    action: 'Go to the Mative website',
-  },
   slow: {
     title: 'Automatic slow motion',
     body: 'This device cannot keep up: the simulation runs at {rate} of real time. The result does not change.',

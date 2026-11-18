@@ -1,6 +1,5 @@
 /**
- * The dictionaries and the small tools that fill them (Phase 4). The language comes from the access
- * token; until the token exists (Phase 5) see access.ts.
+ * The dictionaries and the small tools that fill them (Phase 4). The language of the page is picked by language.ts.
  */
 import { en } from './en.ts';
 import { es } from './es.ts';
@@ -11,10 +10,15 @@ export { LANGUAGES, type Dictionary, type Language };
 
 export const DICTIONARIES: Readonly<Record<Language, Dictionary>> = { it, en, es };
 
-/** The supported language a tag like `es-MX` or `EN` names; Italian, the first language, otherwise. */
-export function resolveLanguage(tag: string | null | undefined): Language {
+/** The supported language a tag like `es-MX` or `EN` names, or undefined when it names none. */
+export function supportedLanguage(tag: string | null | undefined): Language | undefined {
   const base = tag?.toLowerCase().split('-')[0];
-  return LANGUAGES.find((language) => language === base) ?? 'it';
+  return LANGUAGES.find((language) => language === base);
+}
+
+/** The supported language a tag names; English otherwise. */
+export function resolveLanguage(tag: string | null | undefined): Language {
+  return supportedLanguage(tag) ?? 'en';
 }
 
 /** `template` with each `{name}` replaced by its value; a mark without a value stays as written. */

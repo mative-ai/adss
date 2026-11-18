@@ -1,8 +1,8 @@
 /**
  * The view of the run (Phase 4): the 3D scene with the mini-map over it, or the top view, with a switch
  * between the two and the legend under them. The 3D scene is the default; the top view is, for a visitor who asked for
- * reduced motion. Three.js comes with the 3D scene's module, loaded on demand: never before the access check, and not
- * at all for who stays on the top view.
+ * reduced motion. Three.js comes with the 3D scene's module, loaded on demand, and not at all for who stays on the top
+ * view.
  *
  * Where the 3D scene cannot be drawn (no WebGL, a lost context, a module that does not load) the top view stays and a
  * line says so: the plan's "partial" state.

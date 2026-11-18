@@ -1,8 +1,8 @@
 /**
  * The 3D view of the run (Phases 4 and 8), a guest of the page: it makes its own canvas and WebGL
  * context when it mounts, redraws in its own animation loop whenever the store has a newer frame, and frees everything
- * when it leaves. This module is the only way to Three.js, and the page loads it on demand: after the access check,
- * and only for a visitor who sees the 3D view.
+ * when it leaves. This module is the only way to Three.js, and the page loads it on demand, and only for a visitor
+ * who sees the 3D view.
  *
  * It draws one of two scenes (types.ts): the realistic one, whose module and models come on demand in their turn, or
  * the low-poly one. When the realistic scene cannot be made here, or stays too slow at its lowest resolution with

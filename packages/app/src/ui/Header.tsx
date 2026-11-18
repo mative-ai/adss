@@ -40,7 +40,7 @@ export function Header() {
             <Wordmark />
           </span>
           {/* On a narrow screen the title under the bar says it; the link keeps its name for a screen reader. */}
-          <span className="hidden whitespace-nowrap font-neu text-base tracking-tight text-clay-950 sm:inline md:text-lg dark:text-white">
+          <span className="hidden whitespace-nowrap font-heading text-base tracking-tight text-clay-950 sm:inline md:text-lg dark:text-white">
             {t.appName}
           </span>
         </a>

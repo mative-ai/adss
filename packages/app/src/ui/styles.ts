@@ -15,7 +15,7 @@ export const SECONDARY = `${BUTTON} border border-clay-300 bg-white/80 text-clay
 export const CARD = 'rounded-3xl border border-clay-200 bg-clay-50 p-5 dark:border-white/10 dark:bg-night-850 md:p-6';
 
 /** The title of a card. */
-export const CARD_TITLE = 'font-neu text-xl tracking-tight text-clay-950 dark:text-white';
+export const CARD_TITLE = 'font-heading font-medium text-xl tracking-tight text-clay-950 dark:text-white';
 
 /** The secondary text. */
 export const MUTED = 'text-clay-600 dark:text-clay-400';

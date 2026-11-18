@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-// Poppins in the three weights the page sets text in (mative-brand), Latin subset, served by this site.
+// Poppins in the three weights the page sets text and headings in, Latin subset, served by this site.
 import '@fontsource/poppins/latin-400.css';
 import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';

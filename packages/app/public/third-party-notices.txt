@@ -38,5 +38,5 @@ runs. No third-party model, texture or photograph is bundled.
 
 Fonts
 
-Poppins is distributed under the SIL Open Font License 1.1: see third-party-licenses.txt. The heading typeface of
-Mative's own deployment is licensed to Mative and is not part of the published sources.
+Poppins, the typeface of the text and of the headings, is distributed under the SIL Open Font License 1.1: see
+third-party-licenses.txt.

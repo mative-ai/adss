@@ -13,7 +13,7 @@ function Value({ label, value, unit, big }: { label: string; value: string; unit
       <dt className={`text-xs ${MUTED}`}>{label}</dt>
       <dd className="flex items-baseline gap-1">
         <span
-          className={`font-neu tabular-nums tracking-tight text-clay-950 dark:text-white ${big ? 'text-4xl md:text-5xl' : 'text-2xl'}`}
+          className={`font-heading font-medium tabular-nums tracking-tight text-clay-950 dark:text-white ${big ? 'text-4xl md:text-5xl' : 'text-2xl'}`}
         >
           {value}
         </span>{' '}

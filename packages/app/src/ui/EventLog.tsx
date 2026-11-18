@@ -16,7 +16,7 @@ export function EventLog({ events }: { events: readonly LoggedEvent[] }) {
     .reverse();
   return (
     <section aria-labelledby="events-title" className="flex flex-col gap-3">
-      <h2 id="events-title" className="font-neu text-xl tracking-tight text-clay-950 dark:text-white">
+      <h2 id="events-title" className="font-heading font-medium text-xl tracking-tight text-clay-950 dark:text-white">
         {t.events.heading}
       </h2>
       {lines.length === 0 && <p className={`text-sm ${MUTED}`}>{t.events.empty}</p>}

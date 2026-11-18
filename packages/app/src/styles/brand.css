@@ -7,9 +7,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Tokens of every Mative public site, copied from `.claude/skills/mative-brand/references/token.md`
- * (Tailwind 4). One accent only: text on `primary` is always `ink`, never white.
- * The fonts are served by this site, never by a CDN: Poppins comes with the app's entry (main.tsx).
+ * The design tokens (Tailwind 4). One accent only: text on `primary` is always `ink`, never white.
+ * The fonts are served by this site, never by a CDN: Poppins, for the text and the headings, comes with the app's entry
+ * (main.tsx).
  */
 
 @theme {
@@ -48,7 +48,7 @@
   --color-night-950: #090c08;
 
   --font-sans: 'Poppins', sans-serif;
-  --font-neu: 'Poppins', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
 }
 
 @layer base {
@@ -64,7 +64,7 @@
     @apply bg-white font-sans antialiased tracking-tight dark:bg-black;
   }
 
-  /* Reduced motion (mative-brand): no transition or animation runs for a visitor who asked for less. */
+  /* Reduced motion: no transition or animation runs for a visitor who asked for less. */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,

@@ -17,7 +17,7 @@ export function DecisionPanel({ decision }: { decision: { report: DecisionReport
   const d = t.decision;
   return (
     <section aria-labelledby="decision-title" className="flex flex-col gap-3">
-      <h2 id="decision-title" className="font-neu text-xl tracking-tight text-clay-950 dark:text-white">
+      <h2 id="decision-title" className="font-heading font-medium text-xl tracking-tight text-clay-950 dark:text-white">
         {d.heading}
       </h2>
       <p className={`text-sm leading-relaxed ${MUTED}`}>{d.intro}</p>

@@ -47,7 +47,7 @@ function Page({ granted }: { granted: boolean }) {
               {t.disclaimer}
             </span>
           </p>
-          <h1 className="max-w-[18ch] text-balance font-neu text-3xl leading-[1.04] tracking-tight text-clay-950 md:text-5xl dark:text-white">
+          <h1 className="max-w-[18ch] text-balance font-heading font-medium text-3xl leading-[1.04] tracking-tight text-clay-950 md:text-5xl dark:text-white">
             {t.appName}
           </h1>
           <p className="mt-3 max-w-[60ch] text-pretty text-base leading-relaxed md:text-lg">{t.intro}</p>

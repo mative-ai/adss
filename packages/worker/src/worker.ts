@@ -4,7 +4,7 @@
  * second (when the main thread has returned a buffer), each decision, each event, and the metrics after the run's last
  * frame. A turn of the loop starts no chunk of CHUNK ticks after BUDGET_MS, then yields, so `pause`, `returnBuffer`
  * and the rest are read in between: a turn lasts BUDGET_MS plus at most a chunk, and with it one step of the MPC.
- * Measured time only paces the run (CLAUDE.md §8).
+ * Measured time only paces the run (AGENTS.md §5).
  *
  * A frame skipped because the main thread holds every buffer is owed: while playing the next turn sends it, otherwise
  * the next buffer that comes back. So the page always ends up with the run's last state and every telemetry row, and

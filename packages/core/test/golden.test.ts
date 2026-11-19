@@ -1,5 +1,5 @@
 /**
- * Golden trajectory hash (CLAUDE.md §8, §10): a fixed run whose fingerprint must not change by accident. Any
+ * Golden trajectory hash (AGENTS.md §5, §6): a fixed run whose fingerprint must not change by accident. Any
  * change to the plant, the tires, the actuators, the ABS, the road or the generator changes it; update the
  * literal only with the reason in the commit message. Generated in Node; other engines may differ in the last
  * digit of transcendental functions, so cross-engine checks use tolerances, not this hash.

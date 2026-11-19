@@ -15,7 +15,7 @@
  *   start dual feasible, so the method and its optimum are unchanged; it saves one iteration per bound and makes
  *   J smaller while the slacks are fixed.
  * It starts cold: a warm active set from the previous step did not pay on the MPC's QPs. It stops on
- * its iteration cap only (CLAUDE.md §8). The solver keeps its workspace between solves: one instance serves one
+ * its iteration cap only (AGENTS.md §5). The solver keeps its workspace between solves: one instance serves one
  * caller at a time.
  *
  * Like the reference, it follows the structure of QuadProg++ by Luca Di Gaspero (MIT License, copyright (c)

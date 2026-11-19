@@ -3,7 +3,7 @@
  * scenarios/<id>.json, validates it, runs it with the controllers of sim/controllers.ts, and prints the metrics
  * of each vehicle, the decision layer's summary (switches, the maneuvers chosen over time, fallbacks), the run's
  * fingerprint, the step solver's time per QP and the ego's time per control step. The same scenario, seed and options
- * give the same fingerprint on every run (CLAUDE.md §10); the times vary, and are not part of the result.
+ * give the same fingerprint on every run (AGENTS.md §6); the times vary, and are not part of the result.
  *
  * Options: --scenario <id> (required)  --seed <n> (default 1)  --speed <km/h> (initial and reference speed)
  *          --controller decision|stop (default decision; stop is the single-maneuver MPC of tranche 1)

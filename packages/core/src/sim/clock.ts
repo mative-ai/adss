@@ -1,5 +1,5 @@
 /**
- * Simulated time is an integer tick at 1 kHz (CLAUDE.md §8): seconds are derived from the tick, never
+ * Simulated time is an integer tick at 1 kHz (AGENTS.md §5): seconds are derived from the tick, never
  * accumulated in floating point.
  */
 export const TICK_HZ = 1000;

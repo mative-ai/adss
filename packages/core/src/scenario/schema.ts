@@ -25,7 +25,7 @@ import type { SurfaceId } from '../vehicle/surfaces.ts';
 import type { ObstacleSpec } from '../world/obstacles.ts';
 import type { Gust } from '../world/wind.ts';
 
-/** The v1 limit on critical obstacles (CLAUDE.md §1). */
+/** The v1 limit on critical obstacles (AGENTS.md §1). */
 export const MAX_OBSTACLES = 2;
 
 const finite = z.number().refine(Number.isFinite, 'must be finite');

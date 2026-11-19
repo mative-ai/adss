@@ -1,7 +1,7 @@
 /**
  * The pacing of a live run (Phase 4): how many ticks to simulate now, from the wall clock and the
  * playback rate (1 is real time, below it slow motion). It decides how fast the simulation goes, never what it
- * computes (CLAUDE.md §8: measured time may change the pacing, never the result).
+ * computes (AGENTS.md §5: measured time may change the pacing, never the result).
  *
  * The ticks owed grow with the wall time at the rate (1 kHz at rate 1) and fall as the session simulates them. When
  * the simulation cannot keep up, more than MAX_LAG_TICKS stay owed after a turn: the debt is dropped, so the run goes

@@ -1,7 +1,7 @@
 /**
  * Adaptive resolution of the 3D scene (Phase 4): the scene is drawn at fewer pixels when the display's
  * frames come late, and at more again when they have been on time for a while. Only the drawing's sharpness changes:
- * the simulation runs in the worker and its result does not depend on this (CLAUDE.md §2 and §8).
+ * the simulation runs in the worker and its result does not depend on this (AGENTS.md §2 and §5).
  */
 
 /** Frames averaged before a decision. */

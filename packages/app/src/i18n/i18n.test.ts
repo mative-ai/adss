@@ -1,5 +1,5 @@
 /**
- * The dictionaries (Phase 4; CLAUDE.md §7): Italian, English and Spanish have the same keys, none
+ * The dictionaries (Phase 4; AGENTS.md §4): Italian, English and Spanish have the same keys, none
  * empty, the same `{marks}` in each string, and no string left in another language's words; the tools that choose a
  * language and fill a string behave.
  */

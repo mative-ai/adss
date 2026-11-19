@@ -1,5 +1,5 @@
 /**
- * The frames' buffers (CLAUDE.md §8): each frame travels to the main thread in an ArrayBuffer that is transferred, not
+ * The frames' buffers (AGENTS.md §5): each frame travels to the main thread in an ArrayBuffer that is transferred, not
  * copied, and comes back with `returnBuffer`. At most `limit` exist for a run: a buffer back is taken only in place of
  * one lent, so an earlier run's buffer of the same size takes the place of one of this run's, never adds to them. While
  * the main thread holds them all, a frame is skipped, never queued: the next one carries the newer state and every

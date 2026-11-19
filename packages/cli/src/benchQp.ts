@@ -5,7 +5,7 @@
  * closed-loop check, where the plans the candidate returns are the ones the car follows. On the moose runs it
  * compares the cones; on the scenario runs it compares the outcome with the exact solver's run (collision, impact
  * speed, lateral deviation) and says which runs stay bit-identical. Node timings show the direction; the go/no-go
- * at the end of M5 runs in a Chrome worker on the reference laptop (CLAUDE.md §10).
+ * at the end of M5 runs in a Chrome worker on the reference laptop (AGENTS.md §6).
  *
  * The scenario runs include the decision layer of Phase 3 (bench/scenarioCorpus.ts): up to 4 candidate maneuvers'
  * QPs per step, one stream each, with each candidate's cold starts recorded as resets.

@@ -1,6 +1,6 @@
 /**
  * 64-bit fingerprint of floating-point data, as 16 hex digits: two 32-bit lanes with different mixing
- * constants over the IEEE-754 words. Trajectory and golden hashes use it (CLAUDE.md §8): equal runs give
+ * constants over the IEEE-754 words. Trajectory and golden hashes use it (AGENTS.md §5): equal runs give
  * equal fingerprints, and a change in any bit of any value changes it. Not cryptographic.
  */
 function rotl(x: number, k: number): number {

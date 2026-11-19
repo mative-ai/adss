@@ -1,7 +1,7 @@
 /**
  * Runs a vehicle under a controller: the plant at 1 kHz, the controller every `periodTicks`, and each command
  * taking effect `delayTicks` after the state it was computed from (the computation delay is configuration,
- * never a measured time: CLAUDE.md §8).
+ * never a measured time: AGENTS.md §5).
  */
 import type { DriverCommand } from '../vehicle/actuators.ts';
 import type { ExternalLoads } from '../vehicle/plant.ts';

@@ -54,6 +54,6 @@ describe('M3 ISO 3888-2 double lane change at 60 km/h on dry asphalt', () => {
     expect(steps).toBeGreaterThan(100);
   }, 60_000);
 
-  // M3's timing (the solve's p95 under 5 ms in Node) belongs to `npm run bench:qp`, not to a test (CLAUDE.md §10):
+  // M3's timing (the solve's p95 under 5 ms in Node) belongs to `npm run bench:qp`, not to a test (AGENTS.md §6):
   // the benchmark measures this course with the MPC's solver.
 });

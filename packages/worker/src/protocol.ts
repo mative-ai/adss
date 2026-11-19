@@ -1,5 +1,5 @@
 /**
- * The worker protocol (Phase 4; CLAUDE.md §8): the typed messages between the app's main thread and the
+ * The worker protocol (Phase 4; AGENTS.md §5): the typed messages between the app's main thread and the
  * simulation worker, and the layout of a frame. PROTOCOL_VERSION names them: a change of any message, field or frame
  * layout bumps it on both sides in the same change, and `init` from another version is refused.
  *
@@ -19,7 +19,7 @@ import type { BranchId, DecisionReport, MpcSettings, RunEvent, RunMetrics } from
 
 export const PROTOCOL_VERSION = 1;
 
-/** What changes a run's result, besides the scenario and the seed: recorded with the run (CLAUDE.md §8). */
+/** What changes a run's result, besides the scenario and the seed: recorded with the run (AGENTS.md §5). */
 export interface SessionConfig {
   /** The ego: the MPC with the decision layer, or the single-maneuver MPC of M4 braking in its lane. */
   readonly controller: 'decision' | 'stop';

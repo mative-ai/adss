@@ -1,7 +1,7 @@
 /**
  * Metrics of one vehicle's scenario run (Phase 3), in SI units, measured on the true world (not
  * on what the sensor reported). The scenario run feeds the tracker once per tick; solver times are measured by
- * the CLI, never in the core (CLAUDE.md §8).
+ * the CLI, never in the core (AGENTS.md §5).
  *
  * - TTC: gap along the road from the body's front to the rear of an obstacle ahead whose e_y extent overlaps
  *   the body's at that tick, divided by the closing speed; the minimum over the run (null if never closing).

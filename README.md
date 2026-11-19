@@ -1,13 +1,13 @@
-# MPC Autonomous Driving Simulator
+# ADSS: Automated Driving System Simulator
 
 [![verify](https://github.com/mative-ai/adss/actions/workflows/verify.yml/badge.svg)](https://github.com/mative-ai/adss/actions/workflows/verify.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Good first issues](https://img.shields.io/github/issues/mative-ai/adss/good%20first%20issue?label=good%20first%20issues&color=7057ff)](https://github.com/mative-ai/adss/labels/good%20first%20issue)
 
-An interactive driving simulation that runs entirely in the browser. A virtual vehicle is driven by a model predictive
-controller (MPC) through four emergency scenarios, and its run is shown next to a simpler baseline controller, on the
-same road and with the same random seed.
+ADSS, the Automated Driving System Simulator, is an interactive driving simulation that runs entirely in the browser. A
+virtual vehicle is driven by a model predictive controller (MPC) through four emergency scenarios, and its run is shown
+next to a simpler baseline controller, on the same road and with the same random seed.
 
 > **Educational simulation, not for homologation.** It shows how a controller reasons in a critical situation. It is not
 > a certified or a production system, and the figures it shows describe the simulated vehicle only.

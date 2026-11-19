@@ -37,7 +37,7 @@ for the project in public.
 ## Reporting and enforcement
 
 To report a violation, write privately to the maintainers through [Mative's contact page](https://www.mative.ai/en/contact)
-and say that it is about the code of conduct of the MPC simulator. Every report is read, reviewed promptly and fairly,
+and say that it is about the code of conduct of ADSS. Every report is read, reviewed promptly and fairly,
 and treated with respect for the privacy and the safety of the person who made it.
 
 The maintainers answer in one of these ways, as the case asks:

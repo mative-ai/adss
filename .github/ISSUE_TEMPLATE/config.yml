@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question or share an open-ended idea
+    url: https://github.com/mative-ai/adss/discussions
+    about: Questions about how it works, and ideas that are not yet a proposal, go to Discussions and not to issues.
+  - name: Report a security vulnerability
+    url: https://github.com/mative-ai/adss/security/advisories/new
+    about: Report it privately, never in a public issue. SECURITY.md says what is in scope.
+  - name: Try the hosted version
+    url: https://www.mative.ai/en/mpc-simulator
+    about: Ask for an access link to the simulator that Mative hosts.

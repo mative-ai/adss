@@ -1,0 +1,77 @@
+# The labels of the repository. Apply them with a label-sync tool, or one by one with
+# `gh label create "<name>" --color <hex> --description "<text>"` (MAINTAINERS.md says which ones matter for triage).
+- name: bug
+  color: d73a4a
+  description: Something does not work as it should
+- name: enhancement
+  color: a2eeef
+  description: A new feature or an improvement
+- name: documentation
+  color: 0075ca
+  description: An improvement or a fix to the documentation
+- name: question
+  color: d876e3
+  description: A question; Discussions is the better place
+- name: good first issue
+  color: 7057ff
+  description: A good first contribution, with pointers and a clear end
+- name: help wanted
+  color: 008672
+  description: The maintainers would like help with this (HELP_WANTED.md)
+- name: needs triage
+  color: fbca04
+  description: Not yet read by a maintainer
+- name: needs discussion
+  color: fef2c0
+  description: The approach has to be agreed before the code is written
+- name: 'size: small'
+  color: c5def5
+  description: One focused change
+- name: 'size: medium'
+  color: 9ecaf0
+  description: A feature inside one or two packages
+- name: 'size: large'
+  color: 5319e7
+  description: A project across several packages
+- name: breaking
+  color: b60205
+  description: Breaks the contract of VERSIONING.md
+- name: results changed
+  color: e99695
+  description: Moves the fingerprint of an existing scenario
+- name: 'area: core'
+  color: ededed
+  description: The simulation in packages/core
+- name: 'area: mpc'
+  color: ededed
+  description: The controller and the solvers
+- name: 'area: scenarios'
+  color: ededed
+  description: Scenario files and their tests
+- name: 'area: sensors'
+  color: ededed
+  description: The sensor model
+- name: 'area: app'
+  color: ededed
+  description: The interface
+- name: 'area: graphics'
+  color: ededed
+  description: The 3D scene and the models
+- name: 'area: i18n'
+  color: ededed
+  description: Translations and languages
+- name: 'area: tools'
+  color: ededed
+  description: Tools, deployment and CI
+- name: dependencies
+  color: 0366d6
+  description: A dependency update
+- name: duplicate
+  color: cfd3d7
+  description: Already reported or proposed
+- name: invalid
+  color: e4e669
+  description: Not a problem of this project, or not reproducible
+- name: wontfix
+  color: ffffff
+  description: Out of scope or not going to be changed

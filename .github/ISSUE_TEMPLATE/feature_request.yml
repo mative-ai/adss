@@ -1,0 +1,60 @@
+name: Feature request
+description: An idea for the simulator. Open-ended ideas also fit in Discussions.
+title: 'feat: '
+labels: [enhancement, needs triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a small simulator with strict rules, and the maintainers decide what goes in. Please read
+        [CONTRIBUTING.md](https://github.com/mative-ai/adss/blob/main/CONTRIBUTING.md) (what is
+        in scope) and [HELP_WANTED.md](https://github.com/mative-ai/adss/blob/main/HELP_WANTED.md),
+        where your idea may already be.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you cannot do today, and who it matters to (a student, a teacher, a researcher...).
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would change
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part it touches
+      options:
+        - The controller or the solvers
+        - Scenarios
+        - Sensors
+        - The interface
+        - Graphics
+        - Tools, deployment or CI
+        - Documentation
+    validations:
+      required: true
+  - type: dropdown
+    id: help
+    attributes:
+      label: Would you like to build it?
+      options:
+        - Yes
+        - Yes, with some guidance
+        - No, I only have the idea
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send it
+      options:
+        - label: I searched the open and the closed issues and HELP_WANTED.md.
+          required: true

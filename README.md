@@ -1,5 +1,10 @@
 # MPC Autonomous Driving Simulator
 
+[![verify](https://github.com/mative-ai/adss/actions/workflows/verify.yml/badge.svg)](https://github.com/mative-ai/adss/actions/workflows/verify.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Good first issues](https://img.shields.io/github/issues/mative-ai/adss/good%20first%20issue?label=good%20first%20issues&color=7057ff)](https://github.com/mative-ai/adss/labels/good%20first%20issue)
+
 An interactive driving simulation that runs entirely in the browser. A virtual vehicle is driven by a model predictive
 controller (MPC) through four emergency scenarios, and its run is shown next to a simpler baseline controller, on the
 same road and with the same random seed.
@@ -18,6 +23,14 @@ same road and with the same random seed.
 
 The clips are recorded from the simulator, one frame for each 50 ms control cycle, at the speed each scenario is written
 for. The sensors drawn on the vehicle are illustration: the simulation works on a list of tracked objects.
+
+## Try it online
+
+A hosted version runs at **<https://adss.mative.ai>**. It opens with an access link: ask for yours on
+[Mative's site](https://www.mative.ai/en/mpc-simulator) (also in [Italian](https://www.mative.ai/it/simulatore-mpc) and
+[Spanish](https://www.mative.ai/es/simulador-mpc)) and the form takes you to the simulator. Your details stay on
+mative.ai: only the access link reaches the simulator, with no personal data. If you would rather share nothing, run it
+on your own machine, with open access: see [Getting started](#getting-started).
 
 ## The scenarios
 
@@ -81,10 +94,27 @@ the same fingerprint.
 To serve the build, see [deploy/README.md](deploy/README.md): a hardened nginx image, with the response headers and the
 Content-Security-Policy in one file.
 
+## Versions
+
+Releases follow [Semantic Versioning](https://semver.org), adapted to a simulator: [VERSIONING.md](VERSIONING.md) says
+what counts as a breaking change, and [CHANGELOG.md](CHANGELOG.md) lists what changed. The hosted version runs the
+maintainers' own build and may be ahead of the latest release.
+
 ## Contributing
 
 Pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first: it says what is in scope, which rules a change
-has to keep, and how to run the checks.
+has to keep, and how to run the checks. Looking for something to work on? [HELP_WANTED.md](HELP_WANTED.md) lists ideas
+from a first pull request to a project of several weeks. If you work with an AI coding agent in a console, point it to
+[AGENTS.md](AGENTS.md): the commands, the boundaries and the rules, for any tool.
+
+## Community
+
+- **Questions and ideas:** [Discussions](https://github.com/mative-ai/adss/discussions).
+- **Bugs and feature requests:** [issues](https://github.com/mative-ai/adss/issues/new/choose),
+  with the forms that ask for the scenario, the seed and the version.
+- **Something to work on:** [HELP_WANTED.md](HELP_WANTED.md), and the issues labeled `good first issue`.
+- **How we behave:** the [code of conduct](CODE_OF_CONDUCT.md). **How to get help:** [SUPPORT.md](SUPPORT.md). **Who decides:**
+  [MAINTAINERS.md](MAINTAINERS.md).
 
 ## Security
 

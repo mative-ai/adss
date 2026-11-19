@@ -1,0 +1,59 @@
+name: Take an item from HELP_WANTED.md
+description: Tell us which idea of the help-wanted list you would like to build, and how.
+title: 'take: '
+labels: [help wanted, needs discussion]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for offering help. This page opens the discussion that
+        [HELP_WANTED.md](https://github.com/mative-ai/adss/blob/main/HELP_WANTED.md) asks for: we
+        agree on the approach before you write much code. An item is an invitation to discuss, not a promise to merge.
+  - type: dropdown
+    id: item
+    attributes:
+      label: The item
+      options:
+        - Large - Run the scenarios in CARLA
+        - Large - Choose the controller
+        - Large - Compare experiments
+        - Large - More scenarios
+        - Large - Choose the sensors, and compare them
+        - Large - State estimation
+        - Large - A reference implementation
+        - Large - A learning-based driver
+        - Medium - Improve the graphics
+        - Medium - Beat the MPC, drive by hand
+        - Medium - Explain the decision
+        - Medium - Sweeps and a safe-speed map
+        - Medium - More surfaces and weather
+        - Medium - Benchmarks in CI
+        - Small - A new language
+        - Small - Imperial units
+        - Small - A screen-reader pass
+        - Small - A guide for newcomers
+        - Small - Show the version
+        - Another one, I explain below
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: How you would do it
+      description: 'A few lines: the steps, the files you would touch, what you would test. For a Large item, a short design.'
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: Your background and your tools
+      description: What you know that helps (control, TypeScript, graphics...), and the hardware or the AI coding agent you plan to use.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send it
+      options:
+        - label: I read CONTRIBUTING.md, and AGENTS.md if I work with an AI coding agent.
+          required: true
+        - label: I looked for the item in the open issues, in case someone already took it.
+          required: true

@@ -1,0 +1,82 @@
+name: Bug report
+description: Something does not work as it should, or a run gives a wrong result.
+title: 'bug: '
+labels: [bug, needs triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time. A run is rebuilt from its scenario, its seed and its configuration, so the more of
+        the three you give, the sooner we can reproduce it. For a security problem do not use this form: see
+        [SECURITY.md](https://github.com/mative-ai/adss/blob/main/SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did and what you saw. A screenshot or a short clip helps.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: Scenario
+      options:
+        - Pedestrian crossing
+        - Moose test
+        - Curve with an ice patch
+        - μ-split braking
+        - Not specific to a scenario
+    validations:
+      required: true
+  - type: input
+    id: seed
+    attributes:
+      label: Seed
+      placeholder: '1'
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration
+      description: The top speed, the horizon, and anything else you changed in the advanced panel or on the command line.
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where you ran it
+      options:
+        - The hosted version
+        - The development server (npm run dev)
+        - A production build or the Docker image
+        - The command line (npm run sim)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: The output of `git rev-parse --short HEAD`, or the date you used the hosted version.
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and operating system
+      placeholder: Firefox 150 on Ubuntu 24.04
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: For the command line, the printed result and its fingerprint. For the app, the console messages.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send it
+      options:
+        - label: I searched the open and the closed issues for the same problem.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

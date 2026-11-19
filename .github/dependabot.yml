@@ -1,0 +1,19 @@
+# Dependency updates, as pull requests, once a week: the gate (`npm run verify`) runs on each of them. The GitHub Actions
+# of the workflow are pinned to a commit with its release in a comment, and Dependabot keeps both up to date.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    groups:
+      development-dependencies:
+        dependency-type: development
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    labels: [dependencies]
